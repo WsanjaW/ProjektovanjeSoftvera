@@ -134,8 +134,8 @@ public class EvidencijaPanel extends javax.swing.JPanel implements PanelAkcije {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sacuvajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sacuvajButtonActionPerformed
-        String poruka = kontroler.kreirajNovi();
-        JOptionPane.showMessageDialog(this, poruka);
+       // String poruka = kontroler.kreirajNovi();
+       // JOptionPane.showMessageDialog(this, poruka);
     }//GEN-LAST:event_sacuvajButtonActionPerformed
 
     public JComboBox getBiciklistaComboBox() {
@@ -185,9 +185,9 @@ public class EvidencijaPanel extends javax.swing.JPanel implements PanelAkcije {
 
     private void popuniCombo() {
         operacija = "pronadjiPutovanja";
-        kontrilerUcitavanje.pronadji();
+      //  kontrilerUcitavanje.pronadji();
         operacija = "pronadjiBicikliste";
-        kontrilerUcitavanje.pronadji();
+      //  kontrilerUcitavanje.pronadji();
         operacija = "";
     }
 

@@ -13,7 +13,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
-import sesija.Sesija;
 import view.kontroler.biciklista.KontrolerUnosBicikliste;
 import view.kontroler.KontrolorMesta;
 import view.panel.PanelAkcije;
@@ -24,7 +23,7 @@ import view.panel.PanelAkcije;
  */
 public class KreirajBiciklistuPanel extends javax.swing.JPanel implements PanelAkcije {
 
-    KontrolerUnosBicikliste kontroler;
+    KontrolerUnosBicikliste kontrolerUnosBicikliste;
     KontrolorMesta kontrolorMesta;
 
     /**
@@ -32,8 +31,8 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel implements PanelA
      */
     public KreirajBiciklistuPanel() {
         initComponents();
-        kontroler = new KontrolerUnosBicikliste(this);
-        kontrolorMesta = new KontrolorMesta((PanelAkcije) this);
+        kontrolerUnosBicikliste = new KontrolerUnosBicikliste(this);
+       // kontrolorMesta = new KontrolorMesta((PanelAkcije) this);
         sacuvajButton.setEnabled(false);
         popuniMesta();
       
@@ -147,18 +146,27 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel implements PanelA
     }// </editor-fold>//GEN-END:initComponents
 
     private void kreirajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kreirajButtonActionPerformed
-        String poruka = kontroler.kreirajNovi();
-        JOptionPane.showMessageDialog(this, poruka);
-        sacuvajButton.setEnabled(true);
-        kreirajButton.setEnabled(false);
+       
+        try {
+            String poruka = kontrolerUnosBicikliste.kreirajNovogBiciklistu();
+            JOptionPane.showMessageDialog(this, poruka);
+            sacuvajButton.setEnabled(true);
+            kreirajButton.setEnabled(false);
+        } catch (RuntimeException runtimeException) {
+            JOptionPane.showMessageDialog(this, runtimeException.getMessage());
+        }
 
     }//GEN-LAST:event_kreirajButtonActionPerformed
 
     private void sacuvajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sacuvajButtonActionPerformed
-        String poruka = kontroler.zapamti();
-        JOptionPane.showMessageDialog(this, poruka);
-        kreirajButton.setEnabled(true);
-        sacuvajButton.setEnabled(false);
+        try {
+            String poruka = kontrolerUnosBicikliste.sacuvajBiciklistu();
+            JOptionPane.showMessageDialog(this, poruka);
+            kreirajButton.setEnabled(true);
+            sacuvajButton.setEnabled(false);
+        } catch (RuntimeException runtimeException) {
+            JOptionPane.showMessageDialog(this, runtimeException.getMessage());
+        }
         
     }//GEN-LAST:event_sacuvajButtonActionPerformed
 
@@ -248,8 +256,10 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel implements PanelA
     // End of variables declaration//GEN-END:variables
 
     private void popuniMesta() {
-        kontrolorMesta.pronadji();
+       // kontrolorMesta.pronadji();
         //mestoComboBox.setModel(new DefaultComboBoxModel(mesta.toArray()));
+        kontrolerUnosBicikliste.vratiMesta(mestoComboBox);
+        
     }
 
     @Override

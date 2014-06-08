@@ -8,6 +8,7 @@ package view.kontroler.biciklista;
 import domen.Biciklista;
 import domen.OpstiDomenskiObjekat;
 import java.util.List;
+import util.Konstante;
 import view.kontroler.OpstiKontroler;
 import view.models.BicikistiTableModel;
 import view.panel.PanelAkcije;
@@ -43,6 +44,18 @@ public class KontrolerPretragaBiciklista extends OpstiKontroler {
         biciklista.setJmbg(f.getPretraziJmbgTextField().getText().trim());
         biciklista.setPrezime(f.getPretraziPrezimeTextField().getText().trim());
         return biciklista;
+    }
+
+    public String pronadjiBicikliste() throws RuntimeException{
+        mapa.clear();
+        mapa.put("domenskiObjekat", procitajUnosKorisnika());
+        mapa.put("operacija", Konstante.PRONADJI_BICIKLISTU);
+        signal = pozoviSO();
+        if (mapa.containsKey("izuzetak")) {
+            throw new RuntimeException((String) mapa.get("poruka"));
+        }
+        prikaziRezultatSO();
+        return signal;
     }
 
 }

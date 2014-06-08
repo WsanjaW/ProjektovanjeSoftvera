@@ -220,7 +220,7 @@ public class UnosPutovanjaPanel extends javax.swing.JPanel implements PanelAkcij
     }//GEN-LAST:event_izborFajlaButtonActionPerformed
 
     private void novoPutovanjeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoPutovanjeButtonActionPerformed
-        String poruka = kontroler.kreirajNovi();
+        String poruka = kontroler.kreirajNovoPutovanje();
         JOptionPane.showMessageDialog(this, poruka);
         sacuvajButton.setEnabled(true);
         novoPutovanjeButton.setEnabled(false);
@@ -238,8 +238,8 @@ public class UnosPutovanjaPanel extends javax.swing.JPanel implements PanelAkcij
     }//GEN-LAST:event_dodajTrekButtonActionPerformed
 
     private void sacuvajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sacuvajButtonActionPerformed
-        String poruka = kontroler.zapamti();
-        JOptionPane.showMessageDialog(this, poruka);
+       // String poruka = kontroler.zapamti();
+        //JOptionPane.showMessageDialog(this, poruka);
         sacuvajButton.setEnabled(false);
         novoPutovanjeButton.setEnabled(true);
     }//GEN-LAST:event_sacuvajButtonActionPerformed
@@ -322,7 +322,7 @@ public class UnosPutovanjaPanel extends javax.swing.JPanel implements PanelAkcij
     // End of variables declaration//GEN-END:variables
 
     private void popuniCombo() {
-        kontrolerMesta.pronadji();
+        kontroler.ucitajMesta(mestoOdComboBox,mestoDoComboBox);
     }
 
     @Override

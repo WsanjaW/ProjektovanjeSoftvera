@@ -121,14 +121,14 @@ public class LogInForm extends javax.swing.JFrame implements PanelAkcije {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String poruka = kontroler.pronadji();
+       // String poruka = kontroler.pronadji();
         if (kontroler.getDomenskiObjekat() != null) {
             this.setVisible(false);
-            JOptionPane.showMessageDialog(this, poruka);
-            new GlavnaForma(null, false).setVisible(true);
+         //   JOptionPane.showMessageDialog(this, poruka);
+          //  new GlavnaForma(null, false).setVisible(true);
 
         }else {
-            JOptionPane.showMessageDialog(this, poruka);
+          //  JOptionPane.showMessageDialog(this, poruka);
         }
 
         

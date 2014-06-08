@@ -8,6 +8,7 @@ package view.panel.biciklista;
 import domen.Biciklista;
 import domen.OpstiDomenskiObjekat;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
@@ -86,6 +87,16 @@ public class PretragaBiciklistaPanel extends javax.swing.JPanel implements Panel
         this.rezutatTable = rezutatTable;
     }
 
+    public JButton getPrikaziButton() {
+        return prikaziButton;
+    }
+
+    public void setPrikaziButton(JButton prikaziButton) {
+        this.prikaziButton = prikaziButton;
+    }
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -108,6 +119,7 @@ public class PretragaBiciklistaPanel extends javax.swing.JPanel implements Panel
         jLabel5 = new javax.swing.JLabel();
         pretraziJmbgTextField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        prikaziButton = new javax.swing.JButton();
 
         pretraziIDTextField.setName(""); // NOI18N
 
@@ -152,6 +164,13 @@ public class PretragaBiciklistaPanel extends javax.swing.JPanel implements Panel
 
         jLabel6.setText("JMBG:");
 
+        prikaziButton.setText("Prikazi");
+        prikaziButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prikaziButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,7 +178,10 @@ public class PretragaBiciklistaPanel extends javax.swing.JPanel implements Panel
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(prikaziButton))
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
@@ -178,7 +200,7 @@ public class PretragaBiciklistaPanel extends javax.swing.JPanel implements Panel
                                     .addComponent(pretrazImeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(54, 54, 54)
                                 .addComponent(pretraziButton)))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,23 +231,33 @@ public class PretragaBiciklistaPanel extends javax.swing.JPanel implements Panel
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(prikaziButton))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void pretraziButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pretraziButtonActionPerformed
-        String poruka = kontroler.pronadji();
-        JOptionPane.showMessageDialog(this, poruka);
+        try {
+            String poruka = kontroler.pronadjiBicikliste();
+            JOptionPane.showMessageDialog(this, poruka);
+        } catch (RuntimeException runtimeException) {
+            JOptionPane.showMessageDialog(this, runtimeException.getMessage());
+        }
     }//GEN-LAST:event_pretraziButtonActionPerformed
 
     private void rezutatTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rezutatTableMouseClicked
+
+    }//GEN-LAST:event_rezutatTableMouseClicked
+
+    private void prikaziButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziButtonActionPerformed
         JTabbedPane jtp = (JTabbedPane) this.getParent().getParent();
         jtp.setSelectedIndex(3);
         Biciklista b = btm.getBiciklista(rezutatTable.getSelectedRow());
         PrikazBiciklistePanel ppp = (PrikazBiciklistePanel) jtp.getSelectedComponent().getComponentAt(0, 0);
         ppp.prikaziBiciklistu(b);
-    }//GEN-LAST:event_rezutatTableMouseClicked
+    }//GEN-LAST:event_prikaziButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -241,9 +273,11 @@ public class PretragaBiciklistaPanel extends javax.swing.JPanel implements Panel
     private javax.swing.JTextField pretraziIDTextField;
     private javax.swing.JTextField pretraziJmbgTextField;
     private javax.swing.JTextField pretraziPrezimeTextField;
+    private javax.swing.JButton prikaziButton;
     private javax.swing.JTable rezutatTable;
     // End of variables declaration//GEN-END:variables
 
+    
     @Override
     public AbstractTableModel vratiModel() {
         return btm;

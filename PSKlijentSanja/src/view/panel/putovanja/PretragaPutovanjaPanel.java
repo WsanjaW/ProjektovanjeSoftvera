@@ -221,8 +221,8 @@ public class PretragaPutovanjaPanel extends javax.swing.JPanel implements PanelA
     }// </editor-fold>//GEN-END:initComponents
 
     private void pretraziButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pretraziButtonActionPerformed
-        String poruka = kontroler.pronadji();
-        JOptionPane.showMessageDialog(this, poruka);
+        //String poruka = kontroler.pronadji();
+        //JOptionPane.showMessageDialog(this, poruka);
     }//GEN-LAST:event_pretraziButtonActionPerformed
 
     private void prikaziButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziButtonActionPerformed

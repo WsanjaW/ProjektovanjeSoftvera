@@ -39,6 +39,7 @@ public class GlavnaForma extends javax.swing.JFrame {
         evidencijaMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Glavna forma");
 
         jMenu1.setText("Otvori");
 

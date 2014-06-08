@@ -11,9 +11,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import view.kontroler.biciklista.KontrolerIzmenaBrisanjeBiciklista;
-import view.kontroler.biciklista.KontrolerUnosBicikliste;
 import view.models.BicikistiTableModel;
 import view.panel.PanelAkcije;
 
@@ -21,7 +19,7 @@ import view.panel.PanelAkcije;
  *
  * @author Sanja
  */
-public class IzmenaBrisanjeBiciklistaPanel extends javax.swing.JPanel implements PanelAkcije{
+public class IzmenaBrisanjeBiciklistaPanel extends javax.swing.JPanel implements PanelAkcije {
 
     KontrolerIzmenaBrisanjeBiciklista kontroler;
     //BicikistiTableModel btm;
@@ -31,6 +29,9 @@ public class IzmenaBrisanjeBiciklistaPanel extends javax.swing.JPanel implements
     public IzmenaBrisanjeBiciklistaPanel() {
         initComponents();
         kontroler = new KontrolerIzmenaBrisanjeBiciklista(this);
+        pretragaBiciklistaPanel1.getPrikaziButton().setVisible(false);
+       // pretragaBiciklistaPanel1.repaint();
+        pretragaBiciklistaPanel1.updateUI();
         //btm = new BicikistiTableModel();
         //pretragaBiciklistaPanel1.getRezutatTable().setModel(btm);
 
@@ -45,21 +46,21 @@ public class IzmenaBrisanjeBiciklistaPanel extends javax.swing.JPanel implements
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        obrisiButton = new javax.swing.JButton();
+        izmeniButton = new javax.swing.JButton();
         pretragaBiciklistaPanel1 = new view.panel.biciklista.PretragaBiciklistaPanel();
 
-        jButton1.setText("Obrisi izabranog biciklistu");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        obrisiButton.setText("Obrisi izabranog biciklistu");
+        obrisiButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                obrisiButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Izmeni izabranog biciklistu");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        izmeniButton.setText("Izmeni izabranog biciklistu");
+        izmeniButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                izmeniButtonActionPerformed(evt);
             }
         });
 
@@ -69,39 +70,48 @@ public class IzmenaBrisanjeBiciklistaPanel extends javax.swing.JPanel implements
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pretragaBiciklistaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addComponent(pretragaBiciklistaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(obrisiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(izmeniButton, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addGap(121, 121, 121))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pretragaBiciklistaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(pretragaBiciklistaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(izmeniButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(obrisiButton)
+                        .addGap(103, 103, 103))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String poruka = kontroler.izbrisi();
-        JOptionPane.showMessageDialog(this, poruka);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void obrisiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiButtonActionPerformed
+        try {
+            String poruka = kontroler.izbrisiBiciklistu();
+            JOptionPane.showMessageDialog(this, poruka);
+        } catch (RuntimeException runtimeException) {
+            JOptionPane.showMessageDialog(this, runtimeException.getMessage());
+        }
+    }//GEN-LAST:event_obrisiButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void izmeniButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_izmeniButtonActionPerformed
 
-        String poruka = kontroler.zapamti();
-        JOptionPane.showMessageDialog(this, poruka);
+        try {
+            String poruka = kontroler.izmeniBiciklistu();
+            JOptionPane.showMessageDialog(this, poruka);
+        } catch (RuntimeException runtimeException) {
+            JOptionPane.showMessageDialog(this, runtimeException.getMessage());
+        }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_izmeniButtonActionPerformed
 
     public BicikistiTableModel getBiklistiTableModel() {
         return pretragaBiciklistaPanel1.getBtm();
@@ -112,8 +122,8 @@ public class IzmenaBrisanjeBiciklistaPanel extends javax.swing.JPanel implements
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton izmeniButton;
+    private javax.swing.JButton obrisiButton;
     private view.panel.biciklista.PretragaBiciklistaPanel pretragaBiciklistaPanel1;
     // End of variables declaration//GEN-END:variables
 

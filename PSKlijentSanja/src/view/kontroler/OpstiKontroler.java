@@ -28,44 +28,44 @@ public abstract class OpstiKontroler {
         mapa = new HashMap<>();
     }
 
-    public String kreirajNovi() {
-        domenskiObjekat = form.vratiDomenskiObjekat();
-        mapa.put("domenskiObjekat", domenskiObjekat);
-        mapa.put("operacija", "kreirajNoviSlog");
-        signal = pozoviSO();
-        prikaziRezultatSO();
-        return signal;
-
-    }
-    public String zapamti(){
-      
-        domenskiObjekat = procitajUnosKorisnika();
-        mapa.put("domenskiObjekat", domenskiObjekat);
-        mapa.put("operacija", "zapamtiSlog");
-        signal = pozoviSO();
-        prikaziRezultatSO();
-        return signal;
-    }
+//    public String kreirajNovi() {
+//        domenskiObjekat = form.vratiDomenskiObjekat();
+//        mapa.put("domenskiObjekat", domenskiObjekat);
+//        mapa.put("operacija", "kreirajNoviSlog");
+//        signal = pozoviSO();
+//        prikaziRezultatSO();
+//        return signal;
+//
+//    }
+//    public String zapamti(){
+//      
+//        domenskiObjekat = procitajUnosKorisnika();
+//        mapa.put("domenskiObjekat", domenskiObjekat);
+//        mapa.put("operacija", "zapamtiSlog");
+//        signal = pozoviSO();
+//        prikaziRezultatSO();
+//        return signal;
+//    }
+//    
+//    public String izbrisi(){
+//        domenskiObjekat = procitajUnosKorisnika();
+//        mapa.put("domenskiObjekat", domenskiObjekat);
+//        mapa.put("operacija", "izbrisiSlog");
+//        signal = pozoviSO();
+//        prikaziRezultatSO();
+//        return signal;
+//    }
+//    
+//    public String pronadji(){
+//        domenskiObjekat = procitajUnosKorisnika();
+//        mapa.put("domenskiObjekat", domenskiObjekat);
+//        mapa.put("operacija", "pronadji");
+//        signal = pozoviSO();
+//        prikaziRezultatSO();
+//        return signal;
+//    }
     
-    public String izbrisi(){
-        domenskiObjekat = procitajUnosKorisnika();
-        mapa.put("domenskiObjekat", domenskiObjekat);
-        mapa.put("operacija", "izbrisiSlog");
-        signal = pozoviSO();
-        prikaziRezultatSO();
-        return signal;
-    }
-    
-    public String pronadji(){
-        domenskiObjekat = procitajUnosKorisnika();
-        mapa.put("domenskiObjekat", domenskiObjekat);
-        mapa.put("operacija", "pronadji");
-        signal = pozoviSO();
-        prikaziRezultatSO();
-        return signal;
-    }
-    
-    private String pozoviSO() {
+    public String pozoviSO() {
         try {
             TransferObjekat transfer = new TransferObjekat(mapa);
             Komunikacija.getInstance().posalji(transfer);

@@ -23,6 +23,8 @@ public class KontrolorBicikista extends OpstiKontroler{
         this.form = form;
     }
 
+    
+    
     @Override
     public void prikaziRezultatSO() {
         List<Biciklista> biciklisti = (List<Biciklista>) mapa.get("rezultatPretrage");
