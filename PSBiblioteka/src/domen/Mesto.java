@@ -7,6 +7,7 @@ package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -93,6 +94,10 @@ public class Mesto extends OpstiDomenskiObjekat {
 
     @Override
     public String vratiUslovPretrage() {
+       
+        if (mestoId > 0) {
+            return "mestoid = " + mestoId;
+        }
         return "1";
     }
 
@@ -158,6 +163,30 @@ public class Mesto extends OpstiDomenskiObjekat {
     @Override
     public boolean povezanObjekatZaIzmenu(int i) {
         return false;
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
+        try {
+            while (rs.next()) {
+               
+                Mesto m = new Mesto();
+                m.setMestoId(rs.getInt("mestoid"));
+                m.setPttBroj(rs.getString("pttBroj"));
+                m.setNaziv(rs.getString("naziv"));
+                lista.add(m);
+            }
+
+        } catch (SQLException ex) {
+           // throw new SQLException("greska pri popunjavanju liste");
+        }
+        return lista;
+    }
+
+    @Override
+    public void spoj(List<OpstiDomenskiObjekat> lista2, int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

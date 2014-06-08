@@ -291,10 +291,14 @@ public class Biciklista extends OpstiDomenskiObjekat {
     @Override
     public OpstiDomenskiObjekat vratiNoviPovezaniObjekat(int i) {
         if (i == 0) {
-            return new Evidencija();
+            Evidencija ev = new Evidencija();
+            ev.setBiciklista(this);
+            return ev;
         }
         if (i == 1) {
-            return new Mesto();
+            Mesto m = new Mesto();
+            m.setMestoId(mesto.getMestoId());
+            return m;
         }
         return null;
     }
@@ -302,6 +306,44 @@ public class Biciklista extends OpstiDomenskiObjekat {
     @Override
     public boolean povezanObjekatZaIzmenu(int i) {
         return false;
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Biciklista bic = new Biciklista();
+
+                bic.setId(rs.getInt("biciklistaid"));
+                bic.setIme(rs.getString("ime"));
+                bic.setPrezime(rs.getString("prezime"));
+                bic.setJmbg(rs.getString("jmbg"));
+                bic.setNazivBicikla(rs.getString("naziv_bicikla"));
+                bic.setTipBicikla(rs.getString("tip_bicikla"));
+                Mesto m = new Mesto();
+                m.setMestoId(rs.getInt("mestoid"));
+                bic.setMesto(m);
+                lista.add(bic);
+
+            }
+        } catch (SQLException ex) {
+          //  throw new SQLException("greska pri popunjavanju liste");
+        }
+        return lista;
+    }
+
+    @Override
+    public void spoj(List<OpstiDomenskiObjekat> lista2, int i) {
+        if (i == 0) {
+            for (OpstiDomenskiObjekat opstiDomenskiObjekat : lista2) {
+                evidencije.add((Evidencija) opstiDomenskiObjekat);
+            }
+        }
+        if (i == 1) {
+            mesto = (Mesto) lista2.get(0);
+        }
+       
     }
 
 }

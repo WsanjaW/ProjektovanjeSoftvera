@@ -161,6 +161,16 @@ public class Kordinator extends OpstiDomenskiObjekat{
     public boolean povezanObjekatZaIzmenu(int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void spoj(List<OpstiDomenskiObjekat> lista2, int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

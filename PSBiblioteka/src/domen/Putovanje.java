@@ -276,10 +276,16 @@ public class Putovanje extends OpstiDomenskiObjekat {
     @Override
     public OpstiDomenskiObjekat vratiNoviPovezaniObjekat(int i) {
         if (i == 0) {
-            return new Track();
+            Track t = new Track();
+            t.setPutovanje(this);
+            return t;
         }
-        if (i == 1 || i == 2) {
-            return new Mesto();
+        if (i == 1) {
+            Mesto m = new Mesto(odMesta.getMestoId());
+            return m;
+        } else if (i == 2) {
+            Mesto m = new Mesto(doMesta.getMestoId());
+            return m;
         }
         return null;
     }
@@ -290,6 +296,41 @@ public class Putovanje extends OpstiDomenskiObjekat {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
+        try {
+            while (rs.next()) {
+               
+                Putovanje p = new Putovanje();
+                p.setPutovanjeID(rs.getInt("putovanjeid"));
+                p.setNaziv(rs.getString("naziv"));
+                p.setOdMesta(new Mesto(rs.getInt("odMesta")));
+                p.setDoMesta(new Mesto(rs.getInt("doMesta")));
+                lista.add(p);
+            }
+
+        } catch (SQLException ex) {
+            //  throw new SQLException("greska pri popunjavanju liste");
+        }
+        return lista;
+    }
+
+    @Override
+    public void spoj(List<OpstiDomenskiObjekat> lista2, int i) {
+        if (i == 0) {
+            for (OpstiDomenskiObjekat opstiDomenskiObjekat : lista2) {
+                trackovi.add((Track) opstiDomenskiObjekat);
+            }
+        }
+        if (i == 1) {
+            odMesta = (Mesto) lista2.get(0);
+        } else if (i == 2) {
+           doMesta = (Mesto) lista2.get(0);
+        }
+       
     }
 
 }

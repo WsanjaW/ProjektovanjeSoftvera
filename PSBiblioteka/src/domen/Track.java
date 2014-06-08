@@ -7,6 +7,7 @@ package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -119,7 +120,7 @@ public class Track extends OpstiDomenskiObjekat {
 
     @Override
     public String vratiUslovPretrage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return "putovanjeid = " + putovanje.getPutovanjeID();
     }
 
     @Override
@@ -179,6 +180,30 @@ public class Track extends OpstiDomenskiObjekat {
     @Override
     public boolean povezanObjekatZaIzmenu(int i) {
         return false;
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
+        try {
+            while (rs.next()) {
+               
+                Track t = new Track();
+                t.setTrackId(rs.getInt("trackid"));
+                t.setNaziv(rs.getString("naziv"));
+                t.setKilometraza(rs.getDouble("kilometraza"));                
+                t.setPutovanje(new Putovanje(rs.getInt("putovanjeid")));
+                lista.add(t);
+            }
+        } catch (SQLException ex) {
+         //   throw new SQLException("greska pri popunjavanju liste");
+        }
+        return lista;
+    }
+
+    @Override
+    public void spoj(List<OpstiDomenskiObjekat> lista2, int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

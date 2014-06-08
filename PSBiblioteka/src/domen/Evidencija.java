@@ -8,6 +8,7 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -110,7 +111,7 @@ public class Evidencija extends OpstiDomenskiObjekat {
 
     @Override
     public String vratiUslovPretrage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "biciklistaid = " + biciklista.getId();
     }
 
     @Override
@@ -185,7 +186,9 @@ public class Evidencija extends OpstiDomenskiObjekat {
     @Override
     public OpstiDomenskiObjekat vratiNoviPovezaniObjekat(int i) {
         if (i == 0) {
-            return new Putovanje();
+            Putovanje p = new Putovanje();
+            p.postaviID(this.putovanje.getPutovanjeID());
+            return p;
         }
 
         return null;
@@ -194,6 +197,34 @@ public class Evidencija extends OpstiDomenskiObjekat {
     @Override
     public boolean povezanObjekatZaIzmenu(int i) {
         return false;
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
+        try {
+            while (rs.next()) {
+             
+                Evidencija evi = new Evidencija();
+                evi.setBiciklista(new Biciklista(rs.getInt("biciklistaid")));
+                evi.setPutovanje(new Putovanje(rs.getInt("putovanjeid")));
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                evi.setDatumOd(rs.getDate("datumOd"));
+                evi.setDatumDo(rs.getDate("datumDo"));
+                lista.add(evi);
+            }
+
+        } catch (SQLException ex) {
+            //throw new SQLException("greska pri popunjavanju liste");
+        }
+        return lista;
+    }
+
+    @Override
+    public void spoj(List<OpstiDomenskiObjekat> lista2, int i) {
+        if (i == 0) {
+            putovanje = (Putovanje) lista2.get(0);
+        }
     }
 
 }

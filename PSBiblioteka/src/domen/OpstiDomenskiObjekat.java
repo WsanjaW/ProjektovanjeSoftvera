@@ -45,5 +45,10 @@ public abstract class OpstiDomenskiObjekat implements Serializable{
 
     public abstract boolean povezanObjekatZaIzmenu(int i);
 
+    
+
+    public abstract List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs);
+
+    public abstract void spoj(List<OpstiDomenskiObjekat> lista2, int i);
    
 }
