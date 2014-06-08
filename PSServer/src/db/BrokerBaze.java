@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.management.RuntimeErrorException;
 
 /**
  *
@@ -26,34 +27,49 @@ public class BrokerBaze {
 
     Connection konekcija;
 
-    public void otvoriKonekciju() throws ClassNotFoundException, SQLException {
+    public void otvoriKonekciju() throws RuntimeException {
 
-        Class.forName("com.mysql.jdbc.Driver");
-        konekcija = DriverManager.getConnection("jdbc:mysql://localhost/ps_baza?user=root&password=root");
-        konekcija.setAutoCommit(false);
-
-    }
-
-    public void zatvoriKonekciju() throws SQLException {
-
-        konekcija.close();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            konekcija = DriverManager.getConnection("jdbc:mysql://localhost/ps_baza?user=root&password=root");
+            konekcija.setAutoCommit(false);
+        } catch (Exception ex) {
+            throw new RuntimeException("Neuspesno otvaranje konekcije!");
+        }
 
     }
 
-    public void commit() throws SQLException {
+    public void zatvoriKonekciju() throws RuntimeException {
 
-        konekcija.commit();
-
-    }
-
-    public void rollback() throws SQLException {
-
-        konekcija.rollback();
+        try {
+            konekcija.close();
+        } catch (SQLException ex) {
+            throw new RuntimeException("Neuspesno zatvaranje konekcije!");
+        }
 
     }
 
-    public Map<String, Object> ubaciSlog(OpstiDomenskiObjekat domenskiObjekat) {
-        Map<String, Object> mapa = new Hashtable<String, Object>();
+    public void commitTransakcije() throws RuntimeException {
+
+        try {
+            konekcija.commit();
+        } catch (SQLException ex) {
+            throw new RuntimeException("Neuspesan commit transakcije!");
+        }
+
+    }
+
+    public void rollbackTransakcije() throws RuntimeException {
+
+        try {
+            konekcija.rollback();
+        } catch (SQLException ex) {
+            throw new RuntimeException("Neuspesan rollback transakcije!");
+        }
+
+    }
+
+    public OpstiDomenskiObjekat ubaciSlog(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeException {
         try {
             Statement s = konekcija.createStatement();
             String upitID = "SELECT max(" + domenskiObjekat.vratiUslov() + ") FROM "
@@ -72,18 +88,19 @@ public class BrokerBaze {
             System.out.println(upit);
             s.executeUpdate(upit);
             System.out.println("izvrsen");
-            mapa.put("poruka", domenskiObjekat.nazivTabele() + " je uspesno kreiran");
-            mapa.put("domenskiObjekat", domenskiObjekat);
-        } catch (SQLException ex) {
+//            mapa.put("poruka", "Sistem je kreirao novog " + domenskiObjekat.nazivTabele());
+//            mapa.put("domenskiObjekat", domenskiObjekat);
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            mapa.put("poruka", domenskiObjekat.nazivTabele() + " ne moze biti kreiran");
-            mapa.put("Greska", "Greska");
+            throw new RuntimeException("Neuspesno ubcivanje novog objekata");
+//            mapa.put("poruka", "Sistem ne može da kreira novog " + domenskiObjekat.nazivTabele());
+//            mapa.put("Greska", "Greska");
         }
-        return mapa;
+        return domenskiObjekat;
     }
 
-    public Map<String, Object> zapamtiSlog(OpstiDomenskiObjekat domenskiObjekat) {
-        Map<String, Object> mapa = new Hashtable<String, Object>();
+    public OpstiDomenskiObjekat zapamtiSlog(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeException {
+
         try {
             Statement s = konekcija.createStatement();
             String upit = "UPDATE " + domenskiObjekat.nazivTabele() + " SET "
@@ -105,18 +122,19 @@ public class BrokerBaze {
 
             }
 
-            mapa.put("poruka", domenskiObjekat.nazivTabele() + " je uspesno sacuvan");
-            mapa.put("domenskiObjekat", domenskiObjekat);
+//            mapa.put("poruka", domenskiObjekat.nazivTabele() + " je uspesno sacuvan");
+//            mapa.put("domenskiObjekat", domenskiObjekat);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            mapa.put("poruka", domenskiObjekat.nazivTabele() + " ne moze biti sacuvan");
-            mapa.put("Greska", "Greska");
+            throw new RuntimeException("Neuspesno pamcenje objekata");
+//            mapa.put("poruka", domenskiObjekat.nazivTabele() + " ne moze biti sacuvan");
+//            mapa.put("Greska", "Greska");
         }
-        return mapa;
+        return domenskiObjekat;
     }
 
-    public Map<String, Object> izbrisiSlog(OpstiDomenskiObjekat domenskiObjekat) {
-        Map<String, Object> mapa = new Hashtable<String, Object>();
+    public OpstiDomenskiObjekat izbrisiSlog(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeErrorException {
+
         try {
             Statement s = konekcija.createStatement();
             String upit = "DELETE FROM " + domenskiObjekat.nazivTabele() + " WHERE "
@@ -124,75 +142,97 @@ public class BrokerBaze {
             System.out.println(upit);
             s.executeUpdate(upit);
             System.out.println("izvrsen");
-            mapa.put("poruka", domenskiObjekat.nazivTabele() + " je uspesno izbrisan");
-            mapa.put("domenskiObjekat", domenskiObjekat);
-            mapa.put("operacija", "izbrisiSlog");
-        } catch (SQLException ex) {
+//            mapa.put("poruka", domenskiObjekat.nazivTabele() + " je uspesno izbrisan");
+//            mapa.put("domenskiObjekat", domenskiObjekat);
+//            mapa.put("operacija", "izbrisiSlog");
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            mapa.put("poruka", domenskiObjekat.nazivTabele() + " ne moze biti izbrisan");
-            mapa.put("Greska", "Greska");
+            throw new RuntimeException("Neuspesno brisanje objekata");
+//            mapa.put("poruka", domenskiObjekat.nazivTabele() + " ne moze biti izbrisan");
+//            mapa.put("Greska", "Greska");
         }
-        return mapa;
+        // return mapa;
+        return domenskiObjekat;
     }
 
-    public Map<String, Object> pronadji(OpstiDomenskiObjekat domenskiObjekat) {
-        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
-        Map<String, Object> mapa = new Hashtable<String, Object>();
+    public List<OpstiDomenskiObjekat> pronadji(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeErrorException{
+       
+         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         try {
+           
             Statement s = konekcija.createStatement();
             String upit = "SELECT * FROM " + domenskiObjekat.nazivTabele() + " WHERE "
                     + domenskiObjekat.vratiUslovPretrage();
             System.out.println(upit);
             ResultSet rs = s.executeQuery(upit);
-            while (rs.next()) {
-                domenskiObjekat.popuniListu(rs, lista);
-                for (int i = 0; i < domenskiObjekat.vratiBrojPovezanihObjekata(); i++) {
-                    OpstiDomenskiObjekat povezaniObjekat = domenskiObjekat.vratiNoviPovezaniObjekat(i);
-
-                    upit = "SELECT * FROM " + domenskiObjekat.vratiNazivPovezanogObjekata(i) + " WHERE "
-                            + domenskiObjekat.vratiUslovZaPovezanObjekat(i) + "=" + lista.get(lista.size() - 1).vratiIdZaPovezan(i);
-                    System.out.println(upit);
-                    Statement s2 = konekcija.createStatement();
-                    ResultSet rs2 = s2.executeQuery(upit);
-                    List<OpstiDomenskiObjekat> lista2 = new ArrayList<>();
-                    while (rs2.next()) {
-                        povezaniObjekat.popuniListu(rs2, lista2);
-                        for (int j = 0; j < povezaniObjekat.vratiBrojPovezanihObjekata(); j++) {
-                            OpstiDomenskiObjekat povezaniObjekat2 = povezaniObjekat.vratiNoviPovezaniObjekat(j);
-                            upit = "SELECT * FROM " + povezaniObjekat.vratiNazivPovezanogObjekata(i) + " WHERE "
-                                    + povezaniObjekat.vratiUslovZaPovezanObjekat(j) + "=" + lista2.get(lista2.size() - 1).vratiIdZaPovezan(j);
-                            System.out.println(upit);
-                            Statement s3 = konekcija.createStatement();
-                            ResultSet rs3 = s3.executeQuery(upit);
-                            List<OpstiDomenskiObjekat> lista3 = new ArrayList<>();
-                            while (rs3.next()) {
-                                povezaniObjekat2.popuniListu(rs3, lista3);
-
-                            }
-                            povezaniObjekat.popuniListuVezanih(lista3, lista2, i);
-                        }
-                    }
-                    domenskiObjekat.popuniListuVezanih(lista2, lista, i);
-                    s2.close();
-
-                }
-
+            lista = domenskiObjekat.vratiListuRek(rs);
+            for (OpstiDomenskiObjekat obj : lista) {
+                List<OpstiDomenskiObjekat> lista2 = null;
+                for (int i = 0; i < obj.vratiBrojPovezanihObjekata(); i++) {
+                    lista2 = pronadji(obj.vratiNoviPovezaniObjekat(i));
+                    obj.spoj(lista2,i);
+                } 
             }
-            s.close();
-            System.out.println("izvrsen");
-            if (!lista.isEmpty()) {
-                mapa.put("poruka", domenskiObjekat.nazivTabele() + " je uspesno pronadjen");
-                mapa.put("rezultatPretrage", lista);
-            } else {
-                mapa.put("poruka", domenskiObjekat.nazivTabele() + " nije pronadjen");
-            }
-
+            
         } catch (SQLException ex) {
-            Logger.getLogger(BrokerBaze.class.getName()).log(Level.SEVERE, null, ex);
-            mapa.put("poruka", domenskiObjekat.nazivTabele() + " nije uspesno pronadjen");
-            mapa.put("Greska", "Greska");
+            System.out.println(ex.getMessage());
+            throw new RuntimeException("Neuspesno brisanje objekata");
         }
-        return mapa;
-
+        return lista;
+    
     }
+
+//    public List<OpstiDomenskiObjekat> pronadji(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeErrorException {
+//        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
+//
+//        try {
+//            Statement s = konekcija.createStatement();
+//            String upit = "SELECT * FROM " + domenskiObjekat.nazivTabele() + " WHERE "
+//                    + domenskiObjekat.vratiUslovPretrage();
+//            System.out.println(upit);
+//            ResultSet rs = s.executeQuery(upit);
+//            while (rs.next()) {
+//                domenskiObjekat.popuniListu(rs, lista);
+//                for (int i = 0; i < domenskiObjekat.vratiBrojPovezanihObjekata(); i++) {
+//                    OpstiDomenskiObjekat povezaniObjekat = domenskiObjekat.vratiNoviPovezaniObjekat(i);
+//
+//                    upit = "SELECT * FROM " + domenskiObjekat.vratiNazivPovezanogObjekata(i) + " WHERE "
+//                            + domenskiObjekat.vratiUslovZaPovezanObjekat(i) + "=" + lista.get(lista.size() - 1).vratiIdZaPovezan(i);
+//                    System.out.println(upit);
+//                    Statement s2 = konekcija.createStatement();
+//                    ResultSet rs2 = s2.executeQuery(upit);
+//                    List<OpstiDomenskiObjekat> lista2 = new ArrayList<>();
+//                    while (rs2.next()) {
+//                        povezaniObjekat.popuniListu(rs2, lista2);
+//                        for (int j = 0; j < povezaniObjekat.vratiBrojPovezanihObjekata(); j++) {
+//                            OpstiDomenskiObjekat povezaniObjekat2 = povezaniObjekat.vratiNoviPovezaniObjekat(j);
+//                            upit = "SELECT * FROM " + povezaniObjekat.vratiNazivPovezanogObjekata(i) + " WHERE "
+//                                    + povezaniObjekat.vratiUslovZaPovezanObjekat(j) + "=" + lista2.get(lista2.size() - 1).vratiIdZaPovezan(j);
+//                            System.out.println(upit);
+//                            Statement s3 = konekcija.createStatement();
+//                            ResultSet rs3 = s3.executeQuery(upit);
+//                            List<OpstiDomenskiObjekat> lista3 = new ArrayList<>();
+//                            while (rs3.next()) {
+//                                povezaniObjekat2.popuniListu(rs3, lista3);
+//
+//                            }
+//                            povezaniObjekat.popuniListuVezanih(lista3, lista2, i);
+//                        }
+//                    }
+//                    domenskiObjekat.popuniListuVezanih(lista2, lista, i);
+//                    s2.close();
+//
+//                }
+//
+//            }
+//            s.close();
+//            System.out.println("izvrsen");
+//
+//        } catch (SQLException ex) {
+//            System.out.println(ex.getMessage());
+//            throw new RuntimeException("Neuspesno brisanje objekata");
+//        }
+//        return lista;
+//
+//    }
 }

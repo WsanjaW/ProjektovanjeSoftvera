@@ -17,26 +17,26 @@ import java.util.logging.Logger;
  */
 public class Test {
     public static void main(String[] args) {
-        BrokerBaze bb = new BrokerBaze();
-        try {
-            bb.otvoriKonekciju();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Biciklista b = new Biciklista();
-        b.setIme("sanja");
-        b.setJmbg("123");
-        b.setNazivBicikla("sanja");
-        b.setPrezime("sanja");
-        bb.ubaciSlog(b);
-        try {
-            //        bb.iscitaj();
-            bb.zatvoriKonekciju();
-        } catch (SQLException ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        BrokerBaze bb = new BrokerBaze();
+//        try {
+//            bb.otvoriKonekciju();
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        Biciklista b = new Biciklista();
+//        b.setIme("sanja");
+//        b.setJmbg("123");
+//        b.setNazivBicikla("sanja");
+//        b.setPrezime("sanja");
+//        bb.ubaciSlog(b);
+//        try {
+//            //        bb.iscitaj();
+//            bb.zatvoriKonekciju();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
     
 }

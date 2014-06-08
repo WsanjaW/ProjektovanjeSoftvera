@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import transfer.TransferObjekat;
 
 /**
@@ -28,8 +30,12 @@ public class KomunikacijaServer {
         in = new ObjectInputStream(soket.getInputStream());
     }
 
-    public void posalji(TransferObjekat transfer) throws IOException {
-        out.writeObject(transfer);
+    public void posalji(TransferObjekat transfer) throws RuntimeException {
+        try {
+            out.writeObject(transfer);
+        } catch (IOException ex) {
+            throw new RuntimeException("Greska");
+        }
     }
 
     public TransferObjekat primi() throws IOException, ClassNotFoundException {

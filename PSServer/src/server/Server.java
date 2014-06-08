@@ -25,6 +25,7 @@ public class Server {
             while (true) {                
                 Socket klientSocket = serverSocket.accept();
                 Klijent k = new Klijent(klientSocket);
+                k.start();
             }
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

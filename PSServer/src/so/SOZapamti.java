@@ -14,12 +14,22 @@ import java.util.Map;
  */
 public class SOZapamti extends OpstaSO {
 
-    @Override
-    Map<String,Object> izvrsiSO(OpstiDomenskiObjekat domenskiObjekat) {
-        Map<String,Object> mapa = dbb.zapamtiSlog(domenskiObjekat);
-        this.uspesno = true;
-        return mapa;
+//    @Override
+//    Map<String,Object> izvrsiSO(OpstiDomenskiObjekat domenskiObjekat) {
+//        Map<String,Object> mapa = dbb.zapamtiSlog(domenskiObjekat);
+//        this.uspesno = true;
+//        return mapa;
+//
+//    }
 
+    @Override
+    public Object izvrsiSO(Object obj) throws RuntimeException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void proveriPreduslove(Object obj) throws RuntimeException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -15,11 +15,21 @@ import java.util.Map;
 public class SOKreiraj extends OpstaSO {
 
     @Override
-    Map<String, Object> izvrsiSO(OpstiDomenskiObjekat domenskiObjekat) {
-        Map<String, Object> mapa = dbb.ubaciSlog(domenskiObjekat);
-        this.uspesno = true;
-        return mapa;
-
+    public Object izvrsiSO(Object obj) throws RuntimeException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void proveriPreduslove(Object obj) throws RuntimeException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+//    @Override
+//    Map<String, Object> izvrsiSO(OpstiDomenskiObjekat domenskiObjekat) {
+//        Map<String, Object> mapa = dbb.ubaciSlog(domenskiObjekat);
+//        this.uspesno = true;
+//        return mapa;
+//
+//    }
 
 }

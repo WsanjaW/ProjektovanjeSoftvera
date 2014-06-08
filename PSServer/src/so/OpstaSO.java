@@ -6,13 +6,6 @@
 package so;
 
 import db.BrokerBaze;
-import domen.OpstiDomenskiObjekat;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import transfer.TransferObjekat;
 
 /**
  *
@@ -21,42 +14,31 @@ import transfer.TransferObjekat;
 public abstract class OpstaSO {
 
     protected static BrokerBaze dbb;
-    protected static boolean uspesno;
 
-    static {
+    public OpstaSO() {
         dbb = new BrokerBaze();
-        uspesno = false;
     }
 
-    public static void izvrsenjeOpsteSO(TransferObjekat transferObjekat, OpstaSO sistemskaOperacija) {
-        Map<String, Object> mapa = transferObjekat.getMapa();
+    public Object izvrsenjeOpsteSO(Object obj) throws RuntimeException {
         try {
             dbb.otvoriKonekciju();
-            mapa = sistemskaOperacija.izvrsiSO((OpstiDomenskiObjekat) transferObjekat.getMapa().get("domenskiObjekat"));
-            transferObjekat.setMapa(mapa);
-            if (!mapa.containsKey("Greska")) {
-                dbb.commit();
-            } else {
-                dbb.rollback();
-            }
-        } catch (ClassNotFoundException | SQLException ex) {
-            try {
-                dbb.rollback();
-            } catch (SQLException ex1) {
-                System.out.println(ex.getMessage());
-                mapa.put("poruka", ex);
-            }
-        } finally {
-            try {
-                dbb.zatvoriKonekciju();
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-                mapa.put("poruka", ex);
-            }
-        }
+            proveriPreduslove(obj);
+            obj = izvrsiSO(obj);
+            dbb.commitTransakcije();
+            return obj;
 
+        } catch (RuntimeException ex) {
+            dbb.rollbackTransakcije();
+            throw ex;
+        } finally {
+
+            dbb.zatvoriKonekciju();
+
+        }
     }
 
-    abstract Map<String, Object> izvrsiSO(OpstiDomenskiObjekat domenskiObjekat);
+    abstract public Object izvrsiSO(Object obj) throws RuntimeException;
+
+    abstract public void proveriPreduslove(Object obj) throws RuntimeException;
 
 }
