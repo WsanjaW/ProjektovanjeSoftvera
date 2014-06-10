@@ -8,29 +8,39 @@ package view.kontroler.biciklista;
 import domen.Biciklista;
 import domen.OpstiDomenskiObjekat;
 import java.util.List;
+import javax.swing.JPanel;
 import util.Konstante;
 import view.kontroler.OpstiKontroler;
 import view.models.BicikistiTableModel;
-import view.panel.PanelAkcije;
 import view.panel.biciklista.PretragaBiciklistaPanel;
 
 /**
  *
- * @author Aleksandar
+ * Kontroler panela IzmenaBrisanjeBiciklista
+ *
+ * @author Sanja
  */
 public class KontrolerPretragaBiciklista extends OpstiKontroler {
 
-    public KontrolerPretragaBiciklista(PanelAkcije form) {
+    public KontrolerPretragaBiciklista(JPanel form) {
         super();
         this.form = form;
     }
-
+    
+    /**
+     * Upisuje listu pronadjenih biciklista u model
+     */
     @Override
     public void prikaziRezultatSO() {
-        List<Biciklista> biciklisti = (List<Biciklista>) mapa.get("rezultatPretrage");
-        ((BicikistiTableModel) form.vratiModel()).setBiciklisti(biciklisti);
+        PretragaBiciklistaPanel f = (PretragaBiciklistaPanel)form;
+        List<Biciklista> biciklisti = (List<Biciklista>) parametriKomunikacije.get("rezultatPretrage");
+        ((BicikistiTableModel) f.getBtm()).setBiciklisti(biciklisti);
     }
 
+    /**
+     * Cita kriterijume pretrage i kreira Biciklistu sa tim parametrima
+     * @return biciklista sa unetim parametrima
+     */
     @Override
     public OpstiDomenskiObjekat procitajUnosKorisnika() {
         Biciklista biciklista = new Biciklista();
@@ -45,14 +55,22 @@ public class KontrolerPretragaBiciklista extends OpstiKontroler {
         biciklista.setPrezime(f.getPretraziPrezimeTextField().getText().trim());
         return biciklista;
     }
-
+    /**
+     * Popunjava TransferObjekat za izvrsavanje so pronadji bicikliste
+     * i citanje rezultata
+     * @return
+     * @throws RuntimeException 
+     */
     public String pronadjiBicikliste() throws RuntimeException{
-        mapa.clear();
-        mapa.put("domenskiObjekat", procitajUnosKorisnika());
-        mapa.put("operacija", Konstante.PRONADJI_BICIKLISTU);
+        parametriKomunikacije.clear();
+        //popuni mapu
+        parametriKomunikacije.put("domenskiObjekat", procitajUnosKorisnika());
+        parametriKomunikacije.put("operacija", Konstante.PRONADJI_BICIKLISTU);
+        //pozovi so
         signal = pozoviSO();
-        if (mapa.containsKey("izuzetak")) {
-            throw new RuntimeException((String) mapa.get("poruka"));
+        //ako se desio izuzetak(nije uspesno izvrsena so) 
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Biciklista nije pronadjen");
         }
         prikaziRezultatSO();
         return signal;

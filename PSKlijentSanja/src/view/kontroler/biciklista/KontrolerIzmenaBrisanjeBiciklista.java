@@ -14,7 +14,9 @@ import view.panel.biciklista.IzmenaBrisanjeBiciklistaPanel;
 
 /**
  *
- * @author Aleksandar
+ * Kontroler panela IzmenaBrisanjeBiciklista
+ *
+ * @author Sanja
  */
 public class KontrolerIzmenaBrisanjeBiciklista extends OpstiKontroler {
 
@@ -25,15 +27,24 @@ public class KontrolerIzmenaBrisanjeBiciklista extends OpstiKontroler {
         this.form = form;
     }
 
+    /**
+     * Brise biciklistu iz modela ako je izvrsena operacija brisanja
+     */
     @Override
     public void prikaziRezultatSO() {
 
+        IzmenaBrisanjeBiciklistaPanel f = (IzmenaBrisanjeBiciklistaPanel) form;
         if (operacija == Konstante.OBRISI_BICIKLISTU) {
-            ((BicikistiTableModel) form.vratiModel()).izbaciBiciklistu((Biciklista) mapa.get("domenskiObjekat"));
+            ((BicikistiTableModel) f.getBiklistiTableModel()).izbaciBiciklistu((Biciklista) parametriKomunikacije.get("domenskiObjekat"));
         }
 
     }
 
+    /**
+     * Cita izabranog biciklistu iz modela
+     *
+     * @return
+     */
     @Override
     public OpstiDomenskiObjekat procitajUnosKorisnika() {
         Biciklista biciklista = new Biciklista();
@@ -41,27 +52,46 @@ public class KontrolerIzmenaBrisanjeBiciklista extends OpstiKontroler {
         return biciklista;
     }
 
+    /**
+     * Popunjava TransferObjekat za izvrsavanje so brisanja bicikliste
+     * i citanje rezultata
+     *
+     * @return
+     * @throws RuntimeException
+     */
     public String izbrisiBiciklistu() throws RuntimeException {
         operacija = Konstante.OBRISI_BICIKLISTU;
-        mapa.clear();
-        mapa.put("domenskiObjekat", procitajUnosKorisnika());
-        mapa.put("operacija", Konstante.OBRISI_BICIKLISTU);
+        parametriKomunikacije.clear();
+        //popuni mapu
+        parametriKomunikacije.put("domenskiObjekat", procitajUnosKorisnika());
+        parametriKomunikacije.put("operacija", Konstante.OBRISI_BICIKLISTU);
+        //pozovi so
         signal = pozoviSO();
-        if (mapa.containsKey("izuzetak")) {
-            throw new RuntimeException((String) mapa.get("poruka"));
+        //ako se desio izuzetak(nije uspesno izvrsena so) 
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Biciklista ne moze biti izbrisan");
         }
         prikaziRezultatSO();
         return signal;
     }
 
-    public String izmeniBiciklistu() throws RuntimeException{
+    /**
+     * Popunjava TransferObjekat za izvrsavanje so izmenu bicikliste
+     * i citanje rezultata
+     * @return
+     * @throws RuntimeException
+     */
+    public String izmeniBiciklistu() throws RuntimeException {
         operacija = Konstante.ZAPAMTI_BICIKLISTU;
-
-        mapa.put("domenskiObjekat", procitajUnosKorisnika());
-        mapa.put("operacija", Konstante.ZAPAMTI_BICIKLISTU);
+        parametriKomunikacije.clear();
+        //popuni mapu
+        parametriKomunikacije.put("domenskiObjekat", procitajUnosKorisnika());
+        parametriKomunikacije.put("operacija", Konstante.ZAPAMTI_BICIKLISTU);
+        //pozovi so
         signal = pozoviSO();
-        if (mapa.containsKey("izuzetak")) {
-            throw new RuntimeException((String) mapa.get("poruka"));
+        //ako se desio izuzetak(nije uspesno izvrsena so) 
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Biciklista ne moze biti izbrisan");
         }
         prikaziRezultatSO();
         return signal;

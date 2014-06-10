@@ -9,40 +9,64 @@ import domen.Kordinator;
 import domen.OpstiDomenskiObjekat;
 import java.util.List;
 import sesija.Sesija;
+import util.Konstante;
 import view.LogInForm;
 import view.kontroler.OpstiKontroler;
 
 /**
- *
+ * Kontroler za LOgIn formu
  * @author Sanja
  */
-public class KontrolerLogIn extends OpstiKontroler{
+public class KontrolerLogIn extends OpstiKontroler {
 
+    LogInForm f;
     public KontrolerLogIn(LogInForm form) {
         super();
-        this.form = form;
+        this.f = form;
     }
-
+    /**
+     * Ukoliko je korisnik uspesno ulogovan cuva se u sesili
+     */
     @Override
     public void prikaziRezultatSO() {
-        List<Kordinator> kordinatori = (List<Kordinator>) mapa.get("rezultatPretrage");
+        List<Kordinator> kordinatori = (List<Kordinator>) parametriKomunikacije.get("rezultatPretrage");
         Kordinator kordinator = new Kordinator();
         if (kordinatori != null) {
             kordinator = kordinatori.get(0);
             Sesija.getInstanc().setKordinator(kordinator);
-        }else{
+        } else {
             kordinator = null;
         }
-        domenskiObjekat = kordinator;
+        
     }
-
+    /**
+     * Kreira kordinatora sa unetim parametrima
+     * @return 
+     */
     @Override
     public OpstiDomenskiObjekat procitajUnosKorisnika() {
         Kordinator kordinator = new Kordinator();
-        LogInForm f = (LogInForm) form;
+       
         kordinator.setUsername(f.getUsernameTextField().getText());
         kordinator.setPassword(f.getjPasswordField1().getText());
         return kordinator;
+    }
+    
+    /**
+     * 
+     * @return
+     * @throws RuntimeException 
+     */
+    public String ulogujKordinatora() throws RuntimeException{
+        parametriKomunikacije.clear();
+        parametriKomunikacije.put("domenskiObjekat", procitajUnosKorisnika());
+        parametriKomunikacije.put("operacija", Konstante.ULOGUJ_SE);
+        signal = pozoviSO();
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Neuspesno logovanje korisnika");
+        }
+        prikaziRezultatSO();
+        return signal;
     }
 
 }

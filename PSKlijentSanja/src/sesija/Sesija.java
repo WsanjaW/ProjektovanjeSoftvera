@@ -12,15 +12,17 @@ import java.util.Map;
 
 /**
  *
+ * Sesija u kojoj se cuva ulogovani korisnik
+ * 
  * @author Sanja
  */
 public class Sesija {
     private static Sesija instance;
     private Kordinator kordinator;
-    private Map<String,Object> aktivneOperacije;
+   
     private Sesija() {
         kordinator = new Kordinator();
-        aktivneOperacije = new HashMap<>();
+       
     }
     
     public static Sesija getInstanc() {
@@ -38,9 +40,7 @@ public class Sesija {
         this.kordinator = kordinator;
     }
 
-    public Map<String, Object> getAktivneOperacije() {
-        return aktivneOperacije;
-    }
+   
 
     
     

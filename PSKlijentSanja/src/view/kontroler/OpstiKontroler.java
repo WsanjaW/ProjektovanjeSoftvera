@@ -9,85 +9,47 @@ import domen.OpstiDomenskiObjekat;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JPanel;
 import komunikacija.Komunikacija;
 import transfer.TransferObjekat;
-import view.panel.PanelAkcije;
 
 /**
- *
+ * Opsti kontroler
  * @author Sanja
  */
 public abstract class OpstiKontroler {
 
-    protected PanelAkcije form;
-    protected Map<String, Object> mapa;
+    protected JPanel form;
+    protected Map<String, Object> parametriKomunikacije;
     protected OpstiDomenskiObjekat domenskiObjekat;
     protected String signal;
 
     public OpstiKontroler() {
-        mapa = new HashMap<>();
+        parametriKomunikacije = new HashMap<>();
     }
-
-//    public String kreirajNovi() {
-//        domenskiObjekat = form.vratiDomenskiObjekat();
-//        mapa.put("domenskiObjekat", domenskiObjekat);
-//        mapa.put("operacija", "kreirajNoviSlog");
-//        signal = pozoviSO();
-//        prikaziRezultatSO();
-//        return signal;
-//
-//    }
-//    public String zapamti(){
-//      
-//        domenskiObjekat = procitajUnosKorisnika();
-//        mapa.put("domenskiObjekat", domenskiObjekat);
-//        mapa.put("operacija", "zapamtiSlog");
-//        signal = pozoviSO();
-//        prikaziRezultatSO();
-//        return signal;
-//    }
-//    
-//    public String izbrisi(){
-//        domenskiObjekat = procitajUnosKorisnika();
-//        mapa.put("domenskiObjekat", domenskiObjekat);
-//        mapa.put("operacija", "izbrisiSlog");
-//        signal = pozoviSO();
-//        prikaziRezultatSO();
-//        return signal;
-//    }
-//    
-//    public String pronadji(){
-//        domenskiObjekat = procitajUnosKorisnika();
-//        mapa.put("domenskiObjekat", domenskiObjekat);
-//        mapa.put("operacija", "pronadji");
-//        signal = pozoviSO();
-//        prikaziRezultatSO();
-//        return signal;
-//    }
-    
+    /**
+     * Poziva izvrsavanje so slanjem transfer objekta severu
+     * i cita primljeni odgovor
+     * @return poruku servera
+     */
     public String pozoviSO() {
         try {
-            TransferObjekat transfer = new TransferObjekat(mapa);
+            TransferObjekat transfer = new TransferObjekat(parametriKomunikacije);
             Komunikacija.getInstance().posalji(transfer);
             TransferObjekat primljeniObjekat = Komunikacija.getInstance().primi();
-            mapa = primljeniObjekat.getMapa();
-            return (String) mapa.get("poruka");
+            parametriKomunikacije = primljeniObjekat.getMapa();
+            return (String) parametriKomunikacije.get("poruka");
         } catch (IOException ex) {
            return "Neuspesna komunikacija sa serverom";
         } catch (ClassNotFoundException ex) {
            return "Neuspesna komunikacija sa serverom";
         }
     }
-
+    
     public abstract void prikaziRezultatSO();
 
     public abstract OpstiDomenskiObjekat procitajUnosKorisnika();
     
-   // public abstract OpstiDomenskiObjekat vratiDomenskiObjekat();
-
-    public OpstiDomenskiObjekat getDomenskiObjekat() {
-        return domenskiObjekat;
-    }
 
         
 

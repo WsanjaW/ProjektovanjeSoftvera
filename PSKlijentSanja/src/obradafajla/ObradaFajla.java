@@ -10,7 +10,8 @@ import java.io.File;
 import java.util.Date;
 
 /**
- *
+ * Obrada .gpx fajla
+ * TODO implement
  * @author Sanja
  */
 public class ObradaFajla {

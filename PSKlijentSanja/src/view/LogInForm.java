@@ -14,13 +14,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import view.kontroler.login.KontrolerLogIn;
-import view.panel.PanelAkcije;
+
 
 /**
- *
+ * Forma za logovanje
  * @author Sanja
  */
-public class LogInForm extends javax.swing.JFrame implements PanelAkcije {
+public class LogInForm extends javax.swing.JFrame {
 
     KontrolerLogIn kontroler;
 
@@ -45,7 +45,7 @@ public class LogInForm extends javax.swing.JFrame implements PanelAkcije {
         jLabel2 = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        loginButton = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -58,10 +58,10 @@ public class LogInForm extends javax.swing.JFrame implements PanelAkcije {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Unesite potrebne podatke");
 
-        jButton1.setText("Log in");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        loginButton.setText("Log in");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                loginButtonActionPerformed(evt);
             }
         });
 
@@ -92,7 +92,7 @@ public class LogInForm extends javax.swing.JFrame implements PanelAkcije {
                         .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(60, 60, 60)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -109,7 +109,7 @@ public class LogInForm extends javax.swing.JFrame implements PanelAkcije {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addComponent(jButton1)
+                .addComponent(loginButton)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -120,20 +120,24 @@ public class LogInForm extends javax.swing.JFrame implements PanelAkcije {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       // String poruka = kontroler.pronadji();
-        if (kontroler.getDomenskiObjekat() != null) {
+    /**
+     * Logovanje na sistem
+     * @param evt 
+     */
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        try {
+            String poruka = kontroler.ulogujKordinatora();
             this.setVisible(false);
-         //   JOptionPane.showMessageDialog(this, poruka);
-          //  new GlavnaForma(null, false).setVisible(true);
-
-        }else {
-          //  JOptionPane.showMessageDialog(this, poruka);
+            JOptionPane.showMessageDialog(this, poruka);
+            new GlavnaForma(null, false).setVisible(true);
+        } catch (RuntimeException runtimeException) {
+            JOptionPane.showMessageDialog(this, runtimeException.getMessage());
         }
+
 
         
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     public JPasswordField getjPasswordField1() {
         return jPasswordField1;
@@ -187,26 +191,13 @@ public class LogInForm extends javax.swing.JFrame implements PanelAkcije {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JButton loginButton;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public AbstractTableModel vratiModel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<JComboBox> getMestoComboBox() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public OpstiDomenskiObjekat vratiDomenskiObjekat() {
-        return new Kordinator();
-    }
+   
 }

@@ -5,30 +5,24 @@
  */
 package view.panel.putovanja;
 
-import domen.OpstiDomenskiObjekat;
 import domen.Putovanje;
 import domen.Track;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.table.AbstractTableModel;
-import view.kontroler.KontrolorMesta;
 import view.kontroler.putovanja.KontrolerUnosPutovanja;
 import view.models.TrackTableModel;
-import view.panel.PanelAkcije;
+
 
 /**
  *
  * @author Sanja
  */
-public class UnosPutovanjaPanel extends javax.swing.JPanel implements PanelAkcije {
+public class UnosPutovanjaPanel extends javax.swing.JPanel {
 
     KontrolerUnosPutovanja kontroler;
-    KontrolorMesta kontrolerMesta;
     TrackTableModel ttm;
     File trackFile = null;
 
@@ -38,7 +32,6 @@ public class UnosPutovanjaPanel extends javax.swing.JPanel implements PanelAkcij
     public UnosPutovanjaPanel() {
         initComponents();
         kontroler = new KontrolerUnosPutovanja(this);
-        kontrolerMesta = new KontrolorMesta(this);
         ttm = new TrackTableModel();
         trekoviTable.setModel(ttm);
         sacuvajButton.setEnabled(false);
@@ -228,9 +221,7 @@ public class UnosPutovanjaPanel extends javax.swing.JPanel implements PanelAkcij
 
     private void dodajTrekButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajTrekButtonActionPerformed
 
-        Putovanje p = (Putovanje) kontroler.getDomenskiObjekat();
         Track t = new Track();
-        t.setPutovanje(p);
         t.setTrackId(trekoviTable.getRowCount() + 1);
         t.setNaziv(nazivTrackaTextField.getText());
         t.setKilometraza(34.7);
@@ -238,10 +229,14 @@ public class UnosPutovanjaPanel extends javax.swing.JPanel implements PanelAkcij
     }//GEN-LAST:event_dodajTrekButtonActionPerformed
 
     private void sacuvajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sacuvajButtonActionPerformed
-       // String poruka = kontroler.zapamti();
-        //JOptionPane.showMessageDialog(this, poruka);
-        sacuvajButton.setEnabled(false);
-        novoPutovanjeButton.setEnabled(true);
+        try {
+            String poruka = kontroler.zapamtiPutovanje();
+            JOptionPane.showMessageDialog(this, poruka);
+            sacuvajButton.setEnabled(false);
+            novoPutovanjeButton.setEnabled(true);
+        } catch (RuntimeException runtimeException) {        
+            JOptionPane.showMessageDialog(this, runtimeException.getMessage());
+        }
     }//GEN-LAST:event_sacuvajButtonActionPerformed
 
     public JTextField getIdTextField() {
@@ -325,23 +320,5 @@ public class UnosPutovanjaPanel extends javax.swing.JPanel implements PanelAkcij
         kontroler.ucitajMesta(mestoOdComboBox,mestoDoComboBox);
     }
 
-    @Override
-    public AbstractTableModel vratiModel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<JComboBox> getMestoComboBox() {
-        List<JComboBox> lista = new ArrayList<>();
-        lista.add(mestoOdComboBox);
-        lista.add(mestoDoComboBox);
-        return lista;
-    }
-
-    @Override
-    public OpstiDomenskiObjekat vratiDomenskiObjekat() {
-       Putovanje putovanje = new Putovanje();
-        putovanje.setNaziv("unesi...");
-        return putovanje;
-    }
+    
 }

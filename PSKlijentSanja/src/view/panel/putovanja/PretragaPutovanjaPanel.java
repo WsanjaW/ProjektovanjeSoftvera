@@ -5,25 +5,18 @@
  */
 package view.panel.putovanja;
 
-import domen.Biciklista;
-import domen.OpstiDomenskiObjekat;
 import domen.Putovanje;
-import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.table.AbstractTableModel;
 import view.kontroler.putovanja.KontrolerPretragaPutovanja;
 import view.models.PutovanjeTableModel;
-import view.panel.PanelAkcije;
-import view.panel.biciklista.PrikazBiciklistePanel;
 
 /**
  *
  * @author Sanja
  */
-public class PretragaPutovanjaPanel extends javax.swing.JPanel implements PanelAkcije{
+public class PretragaPutovanjaPanel extends javax.swing.JPanel {
 
     KontrolerPretragaPutovanja kontroler;
     PutovanjeTableModel ptm;
@@ -221,8 +214,12 @@ public class PretragaPutovanjaPanel extends javax.swing.JPanel implements PanelA
     }// </editor-fold>//GEN-END:initComponents
 
     private void pretraziButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pretraziButtonActionPerformed
-        //String poruka = kontroler.pronadji();
-        //JOptionPane.showMessageDialog(this, poruka);
+        try {
+            String poruka = kontroler.pronadjiPutovanja();
+            JOptionPane.showMessageDialog(this, poruka);
+        } catch (RuntimeException runtimeException) {
+             JOptionPane.showMessageDialog(this, runtimeException.getMessage());
+        }
     }//GEN-LAST:event_pretraziButtonActionPerformed
 
     private void prikaziButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziButtonActionPerformed
@@ -251,18 +248,5 @@ public class PretragaPutovanjaPanel extends javax.swing.JPanel implements PanelA
     private javax.swing.JTable putovanjaTable;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public AbstractTableModel vratiModel() {
-        return ptm;
-    }
-
-    @Override
-    public List<JComboBox> getMestoComboBox() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public OpstiDomenskiObjekat vratiDomenskiObjekat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 }

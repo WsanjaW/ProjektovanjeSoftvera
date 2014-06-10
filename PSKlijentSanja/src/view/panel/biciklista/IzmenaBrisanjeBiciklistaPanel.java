@@ -13,13 +13,13 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import view.kontroler.biciklista.KontrolerIzmenaBrisanjeBiciklista;
 import view.models.BicikistiTableModel;
-import view.panel.PanelAkcije;
+
 
 /**
  *
  * @author Sanja
  */
-public class IzmenaBrisanjeBiciklistaPanel extends javax.swing.JPanel implements PanelAkcije {
+public class IzmenaBrisanjeBiciklistaPanel extends javax.swing.JPanel {
 
     KontrolerIzmenaBrisanjeBiciklista kontroler;
     //BicikistiTableModel btm;
@@ -127,18 +127,5 @@ public class IzmenaBrisanjeBiciklistaPanel extends javax.swing.JPanel implements
     private view.panel.biciklista.PretragaBiciklistaPanel pretragaBiciklistaPanel1;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public AbstractTableModel vratiModel() {
-        return getBiklistiTableModel();
-    }
-
-    @Override
-    public List<JComboBox> getMestoComboBox() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public OpstiDomenskiObjekat vratiDomenskiObjekat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
 }

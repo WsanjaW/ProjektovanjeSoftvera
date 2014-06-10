@@ -8,7 +8,7 @@ package view;
 import sesija.Sesija;
 
 /**
- *
+ * Glavna forma
  * @author Sanja
  */
 public class GlavnaForma extends javax.swing.JFrame {

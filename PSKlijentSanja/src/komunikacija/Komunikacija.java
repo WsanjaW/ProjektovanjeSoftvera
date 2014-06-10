@@ -13,7 +13,9 @@ import java.net.Socket;
 
 /**
  *
- * @author Aleksandar
+ * Komunikacija sa serverom
+ * 
+ * @author Sanja
  */
 public class Komunikacija {
 
@@ -35,10 +37,21 @@ public class Komunikacija {
         return instance;
     }
 
+    /**
+     * Salje TransferObjekat serveru
+     * @param transfer transfer objekat za slanje
+     * @throws IOException 
+     */
     public void posalji(TransferObjekat transfer) throws IOException {
         out.writeObject(transfer);
     }
 
+    /**
+     * Prima TransferObjekat od servera
+     * @return transfer objekat
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     public TransferObjekat primi() throws IOException, ClassNotFoundException {
         return (TransferObjekat) in.readObject();
     }

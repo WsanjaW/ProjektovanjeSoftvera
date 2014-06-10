@@ -16,9 +16,9 @@ import view.kontroler.OpstiKontroler;
 import view.panel.biciklista.KreirajBiciklistuPanel;
 
 /**
- * Kontrolor za formu(panel) za unos bicikliste
+ * Kontrolor za panel za unos bicikliste
  *
- * @author Aleksandar
+ * @author Sanja
  */
 public class KontrolerUnosBicikliste extends OpstiKontroler {
 
@@ -28,9 +28,12 @@ public class KontrolerUnosBicikliste extends OpstiKontroler {
 
     }
 
+    /**
+     * Prikazuje kreiranog biciklistu na panelu
+     */
     @Override
     public void prikaziRezultatSO() {
-        Biciklista biciklista = (Biciklista) mapa.get("domenskiObjekat");
+        Biciklista biciklista = (Biciklista) parametriKomunikacije.get("domenskiObjekat");
         KreirajBiciklistuPanel f = (KreirajBiciklistuPanel) form;
         f.setImeTextField(biciklista.getIme());
         f.setPrezimeTextField(biciklista.getPrezime());
@@ -40,9 +43,14 @@ public class KontrolerUnosBicikliste extends OpstiKontroler {
         f.setTipBicikla(biciklista.getTipBicikla());
     }
 
+    /**
+     * Cita podatke i kreira objekat biciklista sa tim parametrima
+     *
+     * @return
+     */
     @Override
     public OpstiDomenskiObjekat procitajUnosKorisnika() {
-        
+
         KreirajBiciklistuPanel f = (KreirajBiciklistuPanel) form;
         Biciklista bicikista = new Biciklista();
         bicikista.setId(Integer.parseInt(f.getIdTextField().getText().trim()));
@@ -56,38 +64,66 @@ public class KontrolerUnosBicikliste extends OpstiKontroler {
 
     }
 
+    /**
+     * Popunjava TransferObjekat za izvrsavanje so pronadji mesta Kao
+     * domenskiObjekat se salje Mesto bez parametara kako bi se dobila sva mesta
+     * iz baze
+     *
+     * @param mestoComboBox
+     */
     public void vratiMesta(JComboBox mestoComboBox) {
-        //domenskiObjekat = procitajUnosKorisnika();
-        mapa.clear();
-        mapa.put("domenskiObjekat", new Mesto());
-        mapa.put("operacija", Konstante.UCITAJ_MESTA);
+
+        parametriKomunikacije.clear();
+        parametriKomunikacije.put("domenskiObjekat", new Mesto());
+        parametriKomunikacije.put("operacija", Konstante.UCITAJ_MESTA);
         signal = pozoviSO();
-        List<OpstiDomenskiObjekat> mesta = (List<OpstiDomenskiObjekat>) mapa.get("rezultatPretrage");
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Pocetni podaci nisu ucitani");
+        }
+        //procitaj rezultate pretrage
+        List<OpstiDomenskiObjekat> mesta = (List<OpstiDomenskiObjekat>) parametriKomunikacije.get("rezultatPretrage");
+        //postavi model
         mestoComboBox.setModel(new DefaultComboBoxModel(mesta.toArray()));
 
     }
 
+    /**
+     * Popunjava TransferObjekat za izvrsavanje so kreiraj biciklistu
+     * i citanje rezultata
+     * @return
+     */
     public String kreirajNovogBiciklistu() {
-        mapa.clear();
-        mapa.put("domenskiObjekat", kreirajObjekat());
-        mapa.put("operacija", Konstante.KREIRAJ_BICIKLISTU);
+        parametriKomunikacije.clear();
+        parametriKomunikacije.put("domenskiObjekat", kreirajObjekat());
+        parametriKomunikacije.put("operacija", Konstante.KREIRAJ_BICIKLISTU);
         signal = pozoviSO();
-        prikaziRezultatSO();
-        return signal;
-    }
-
-    public String sacuvajBiciklistu() throws RuntimeException{
-        mapa.clear();
-        mapa.put("domenskiObjekat", procitajUnosKorisnika());
-        mapa.put("operacija", Konstante.ZAPAMTI_BICIKLISTU);
-        signal = pozoviSO();
-        if (mapa.containsKey("izuzetak")) {
-            throw new RuntimeException((String) mapa.get("poruka"));
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Biciklista ne moze biti kreiran");
         }
         prikaziRezultatSO();
         return signal;
     }
-    
+
+    /**
+     * Popunjava TransferObjekat za izvrsavanje so sacuvaj biciklistu
+     * i citanje rezultata
+     * @return
+     */
+    public String sacuvajBiciklistu() throws RuntimeException {
+        parametriKomunikacije.clear();
+        parametriKomunikacije.put("domenskiObjekat", procitajUnosKorisnika());
+        parametriKomunikacije.put("operacija", Konstante.ZAPAMTI_BICIKLISTU);
+        signal = pozoviSO();
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Biciklista ne moze biti sacuvan");
+        }
+        prikaziRezultatSO();
+        return signal;
+    }
+    /**
+     * Kreira objekat Biciklista sa pocetnim parametrima
+     * @return 
+     */
     public OpstiDomenskiObjekat kreirajObjekat() {
         Biciklista biciklista = new Biciklista();
         biciklista.setIme("unesi...");

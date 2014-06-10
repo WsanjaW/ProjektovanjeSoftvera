@@ -8,6 +8,7 @@ package view.kontroler.putovanja;
 import domen.Mesto;
 import domen.OpstiDomenskiObjekat;
 import domen.Putovanje;
+import domen.Track;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -28,7 +29,7 @@ public class KontrolerUnosPutovanja extends OpstiKontroler {
 
     @Override
     public void prikaziRezultatSO() {
-        Putovanje putovanje = (Putovanje) mapa.get("domenskiObjekat");
+        Putovanje putovanje = (Putovanje) parametriKomunikacije.get("domenskiObjekat");
         UnosPutovanjaPanel f = (UnosPutovanjaPanel) form;
         f.setIdTextField(String.valueOf(putovanje.getPutovanjeID()));
         f.setNazivTextField(putovanje.getNaziv());
@@ -42,25 +43,29 @@ public class KontrolerUnosPutovanja extends OpstiKontroler {
         putovanje.setOdMesta((Mesto) f.getMestoOdComboBox().getSelectedItem());
         putovanje.setDoMesta((Mesto) f.getMestoDoComboBox().getSelectedItem());
         putovanje.setNaziv(f.getNazivTextField().getText());
+        List<Track> trackovi = f.getTtm().getTrekovi();
+        for (Track track : trackovi) {
+            track.setPutovanje(putovanje);
+        }
         putovanje.setTrackovi(f.getTtm().getTrekovi());
         return putovanje;
     }
 
     public String kreirajNovoPutovanje() {
-        mapa.clear();
-        mapa.put("domenskiObjekat", kreirajObjekat());
-        mapa.put("operacija", Konstante.KREIRAJ_PUTOVANJE);
+        parametriKomunikacije.clear();
+        parametriKomunikacije.put("domenskiObjekat", kreirajObjekat());
+        parametriKomunikacije.put("operacija", Konstante.KREIRAJ_PUTOVANJE);
         signal = pozoviSO();
         prikaziRezultatSO();
         return signal;
     }
 
     public void ucitajMesta(JComboBox mestoOdComboBox, JComboBox mestoDoComboBox) {
-        mapa.clear();
-        mapa.put("domenskiObjekat", new Mesto());
-        mapa.put("operacija", Konstante.UCITAJ_MESTA);
+        parametriKomunikacije.clear();
+        parametriKomunikacije.put("domenskiObjekat", new Mesto());
+        parametriKomunikacije.put("operacija", Konstante.UCITAJ_MESTA);
         signal = pozoviSO();
-        List<OpstiDomenskiObjekat> mesta = (List<OpstiDomenskiObjekat>) mapa.get("rezultatPretrage");
+        List<OpstiDomenskiObjekat> mesta = (List<OpstiDomenskiObjekat>) parametriKomunikacije.get("rezultatPretrage");
         mestoOdComboBox.setModel(new DefaultComboBoxModel(mesta.toArray()));
         mestoDoComboBox.setModel(new DefaultComboBoxModel(mesta.toArray()));
     }
@@ -69,5 +74,24 @@ public class KontrolerUnosPutovanja extends OpstiKontroler {
         Putovanje putovanje = new Putovanje();
         putovanje.setNaziv("unesi...");
         return putovanje;
+    }
+
+    /**
+     * Popunjava TransferObjekat za izvrsavanje so zapamti putovanje i citanje
+     * rezultata so
+     *
+     * @return
+     * @throws RuntimeException
+     */
+    public String zapamtiPutovanje() throws RuntimeException {
+        parametriKomunikacije.clear();
+        parametriKomunikacije.put("domenskiObjekat", procitajUnosKorisnika());
+        parametriKomunikacije.put("operacija", Konstante.ZAPAMTI_PUTOVANJE);
+        signal = pozoviSO();
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Putovanje ne moze biti zapamceno");
+        }
+        prikaziRezultatSO();
+        return signal;
     }
 }

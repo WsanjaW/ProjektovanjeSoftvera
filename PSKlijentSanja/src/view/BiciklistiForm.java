@@ -9,7 +9,7 @@ package view;
 import java.awt.Frame;
 
 /**
- *
+ * Forma za rad sa biciklistima
  * @author Sanja
  */
 public class BiciklistiForm extends javax.swing.JDialog {

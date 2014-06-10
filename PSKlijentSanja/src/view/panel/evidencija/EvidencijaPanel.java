@@ -5,32 +5,19 @@
  */
 package view.panel.evidencija;
 
-import domen.Biciklista;
-import domen.Evidencija;
-import domen.OpstiDomenskiObjekat;
-import domen.Putovanje;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.table.AbstractTableModel;
-import view.kontroler.KontrolorMesta;
 import view.kontroler.evidencija.KontrolerEvidencija;
-import view.kontroler.evidencija.KontrolerEvidencijeUcitavanje;
-import view.panel.PanelAkcije;
 
 /**
  *
  * @author Sanja
  */
-public class EvidencijaPanel extends javax.swing.JPanel implements PanelAkcije {
+public class EvidencijaPanel extends javax.swing.JPanel {
 
     KontrolerEvidencija kontroler;
-    KontrolerEvidencijeUcitavanje kontrilerUcitavanje;
+
     String operacija = "";
 
     /**
@@ -39,7 +26,7 @@ public class EvidencijaPanel extends javax.swing.JPanel implements PanelAkcije {
     public EvidencijaPanel() {
         initComponents();
         kontroler = new KontrolerEvidencija(this);
-        kontrilerUcitavanje = new KontrolerEvidencijeUcitavanje(this);
+
         popuniCombo();
     }
 
@@ -134,8 +121,12 @@ public class EvidencijaPanel extends javax.swing.JPanel implements PanelAkcije {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sacuvajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sacuvajButtonActionPerformed
-       // String poruka = kontroler.kreirajNovi();
-       // JOptionPane.showMessageDialog(this, poruka);
+        try {
+            String poruka = kontroler.kreirajNovuEvidenciju();
+            JOptionPane.showMessageDialog(this, poruka);
+        } catch (RuntimeException runtimeException) {
+            JOptionPane.showMessageDialog(this, runtimeException.getMessage());
+        }
     }//GEN-LAST:event_sacuvajButtonActionPerformed
 
     public JComboBox getBiciklistaComboBox() {
@@ -184,49 +175,13 @@ public class EvidencijaPanel extends javax.swing.JPanel implements PanelAkcije {
     // End of variables declaration//GEN-END:variables
 
     private void popuniCombo() {
+        kontroler.ucitajBicikliste(biciklistaComboBox);
+        kontroler.ucitajPutovanja(putovanjeComboBox);
         operacija = "pronadjiPutovanja";
-      //  kontrilerUcitavanje.pronadji();
+        //  kontrilerUcitavanje.pronadji();
         operacija = "pronadjiBicikliste";
-      //  kontrilerUcitavanje.pronadji();
+        //  kontrilerUcitavanje.pronadji();
         operacija = "";
     }
 
-    @Override
-    public AbstractTableModel vratiModel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<JComboBox> getMestoComboBox() {
-        List<JComboBox> lista = new ArrayList<>();
-        if (operacija.equals("pronadjiPutovanja")) {
-            lista.add(putovanjeComboBox);
-        } else if (operacija.equals("pronadjiBicikliste")) {
-            lista.add(biciklistaComboBox);
-        }
-        return lista;
-    }
-
-    @Override
-    public OpstiDomenskiObjekat vratiDomenskiObjekat() {
-        if (operacija.equals("pronadjiPutovanja")) {
-            return new Putovanje();
-        } else if (operacija.equals("pronadjiBicikliste")) {
-            return new Biciklista();
-        } else {
-            try {
-                // EvidencijaPanel f = (EvidencijaPanel) form;
-                Evidencija evi = new Evidencija();
-                evi.setBiciklista((Biciklista) getBiciklistaComboBox().getSelectedItem());
-                evi.setPutovanje((Putovanje) getPutovanjeComboBox().getSelectedItem());
-                String d = getDatumOdTextField().getText();
-                SimpleDateFormat ft = new SimpleDateFormat("dd.MM.yyyy");
-                evi.setDatumOd(ft.parse(d));
-                evi.setDatumDo(ft.parse(getDatumDoTextField().getText()));
-                return evi;
-            } catch (ParseException ex) {
-                throw new RuntimeException("Datum u pograsnom formatu");
-            }
-        }
-    }
 }

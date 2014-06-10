@@ -5,28 +5,21 @@
  */
 package view.panel.izvestaj;
 
-import domen.Izvestaj;
-import domen.OpstiDomenskiObjekat;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.table.AbstractTableModel;
 import view.kontroler.izvestaj.KontrolerIzvestaj;
-import view.kontroler.izvestaj.KontrolerIzvestajUcitaj;
-import view.panel.PanelAkcije;
 
 /**
  *
  * @author Sanja
  */
-public class IzvestajPanel extends javax.swing.JPanel implements PanelAkcije {
+public class IzvestajPanel extends javax.swing.JPanel {
 
     KontrolerIzvestaj kontroler;
-    KontrolerIzvestajUcitaj kontrolerUcitaj;
+   
 
     /**
      * Creates new form IzvestajPanel
@@ -34,8 +27,7 @@ public class IzvestajPanel extends javax.swing.JPanel implements PanelAkcije {
     public IzvestajPanel() {
         initComponents();
         kontroler = new KontrolerIzvestaj(this);
-        kontrolerUcitaj = new KontrolerIzvestajUcitaj(this);
-        //kontrolerUcitaj.pronadji();
+        kontroler.ucitajBicikliste(biciklistaComboBox);
     }
 
     /**
@@ -114,13 +106,13 @@ public class IzvestajPanel extends javax.swing.JPanel implements PanelAkcije {
     }// </editor-fold>//GEN-END:initComponents
 
     private void kreirajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kreirajButtonActionPerformed
-       // String poruka = kontroler.kreirajNovi();
-       // JOptionPane.showMessageDialog(this, poruka);
+        String poruka = kontroler.kreirajNoviIzvestaj();
+        JOptionPane.showMessageDialog(this, poruka);
     }//GEN-LAST:event_kreirajButtonActionPerformed
 
     private void sacuvajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sacuvajButtonActionPerformed
-      //  String poruka = kontroler.zapamti();
-      //  JOptionPane.showMessageDialog(this, poruka);
+        String poruka = kontroler.zapamtiIzvestaj();
+        JOptionPane.showMessageDialog(this, poruka);
     }//GEN-LAST:event_sacuvajButtonActionPerformed
 
     public JComboBox getBiciklistaComboBox() {
@@ -188,22 +180,5 @@ public class IzvestajPanel extends javax.swing.JPanel implements PanelAkcije {
     private javax.swing.JButton sacuvajButton;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public AbstractTableModel vratiModel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<JComboBox> getMestoComboBox() {
-        List<JComboBox> lista = new ArrayList<>();
-        lista.add(biciklistaComboBox);
-        return lista;
-    }
-
-    @Override
-    public OpstiDomenskiObjekat vratiDomenskiObjekat() {
-        Izvestaj iz = new Izvestaj();
-        iz.setKordinator(sesija.Sesija.getInstanc().getKordinator());
-        return iz;
-    }
+    
 }

@@ -14,17 +14,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import view.kontroler.biciklista.KontrolerUnosBicikliste;
-import view.kontroler.KontrolorMesta;
-import view.panel.PanelAkcije;
 
 /**
  *
  * @author Sanja
  */
-public class KreirajBiciklistuPanel extends javax.swing.JPanel implements PanelAkcije {
+public class KreirajBiciklistuPanel extends javax.swing.JPanel {
 
     KontrolerUnosBicikliste kontrolerUnosBicikliste;
-    KontrolorMesta kontrolorMesta;
 
     /**
      * Creates new form KreirajBiciklistuPanel
@@ -32,7 +29,6 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel implements PanelA
     public KreirajBiciklistuPanel() {
         initComponents();
         kontrolerUnosBicikliste = new KontrolerUnosBicikliste(this);
-       // kontrolorMesta = new KontrolorMesta((PanelAkcije) this);
         sacuvajButton.setEnabled(false);
         popuniMesta();
       
@@ -164,6 +160,7 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel implements PanelA
             JOptionPane.showMessageDialog(this, poruka);
             kreirajButton.setEnabled(true);
             sacuvajButton.setEnabled(false);
+            postaviPocetneVrednosti();
         } catch (RuntimeException runtimeException) {
             JOptionPane.showMessageDialog(this, runtimeException.getMessage());
         }
@@ -182,7 +179,7 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel implements PanelA
         return jmbgTextField;
     }
 
-    @Override
+   
     public List<JComboBox> getMestoComboBox() {
         List<JComboBox> lista = new ArrayList<>();
 
@@ -262,21 +259,13 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel implements PanelA
         
     }
 
-    @Override
-    public AbstractTableModel vratiModel() {
-        return this.vratiModel();
-    }
-
-    @Override
-    public OpstiDomenskiObjekat vratiDomenskiObjekat() {
-        Biciklista biciklista = new Biciklista();
-        biciklista.setIme("unesi...");
-        biciklista.setPrezime("unesi...");
-        biciklista.setJmbg("unesi...");
-        biciklista.setNazivBicikla("unesi...");
-        biciklista.setTipBicikla("MTB");
-        biciklista.setMesto(null);
-        return biciklista;
+    private void postaviPocetneVrednosti() {
+        idTextField.setText("");
+        imeTextField.setText("");
+        prezimeTextField.setText("");
+        jmbgTextField.setText("");
+        nazivBiciklaTextField.setText("");
+        
     }
 
     

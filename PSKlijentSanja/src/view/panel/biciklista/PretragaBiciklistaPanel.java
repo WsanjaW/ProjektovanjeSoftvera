@@ -17,13 +17,12 @@ import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import view.kontroler.biciklista.KontrolerPretragaBiciklista;
 import view.models.BicikistiTableModel;
-import view.panel.PanelAkcije;
 
 /**
  *
  * @author Sanja
  */
-public class PretragaBiciklistaPanel extends javax.swing.JPanel implements PanelAkcije {
+public class PretragaBiciklistaPanel extends javax.swing.JPanel {
 
     KontrolerPretragaBiciklista kontroler;
     BicikistiTableModel btm;
@@ -278,19 +277,6 @@ public class PretragaBiciklistaPanel extends javax.swing.JPanel implements Panel
     // End of variables declaration//GEN-END:variables
 
     
-    @Override
-    public AbstractTableModel vratiModel() {
-        return btm;
-    }
-
-    @Override
-    public List<JComboBox> getMestoComboBox() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public OpstiDomenskiObjekat vratiDomenskiObjekat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  
 
 }
