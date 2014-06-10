@@ -3,23 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package so;
 
-import domen.OpstiDomenskiObjekat;
-import java.util.Map;
+package poslovnalogika.so;
 
 /**
  *
- * @author Aleksandar
+ * @author Sanja
  */
-public class SOPronadji extends OpstaSO {
-
-//    @Override
-//    Map<String, Object> izvrsiSO(OpstiDomenskiObjekat domenskiObjekat) {
-//        Map<String, Object> mapa = dbb.pronadji(domenskiObjekat);
-//        uspesno = true;
-//        return mapa;
-//    }
+public class SOPrikaziBiciklistu extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
@@ -30,5 +21,5 @@ public class SOPronadji extends OpstaSO {
     public void proveriPreduslove(Object obj) throws RuntimeException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }

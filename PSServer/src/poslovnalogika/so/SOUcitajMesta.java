@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-package so;
+package poslovnalogika.so;
 
 import domen.Mesto;
 import domen.OpstiDomenskiObjekat;
 import domen.Putovanje;
 import java.util.ArrayList;
 import java.util.List;
-import static so.OpstaSO.dbb;
+import static poslovnalogika.so.OpstaSO.dbb;
 
 /**
  *

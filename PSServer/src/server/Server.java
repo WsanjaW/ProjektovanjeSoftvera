@@ -13,8 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Aleksandar
+ * Pokretanje servera
+ * 
+ * @author Sanja
  */
 public class Server {
     
@@ -24,7 +25,7 @@ public class Server {
             System.out.println("pokrenut");
             while (true) {                
                 Socket klientSocket = serverSocket.accept();
-                Klijent k = new Klijent(klientSocket);
+                KlijentNit k = new KlijentNit(klientSocket);
                 k.start();
             }
         } catch (IOException ex) {

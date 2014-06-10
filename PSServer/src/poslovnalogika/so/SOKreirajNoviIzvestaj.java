@@ -4,29 +4,26 @@
  * and open the template in the editor.
  */
 
-package so;
+package poslovnalogika.so;
 
-import domen.Biciklista;
-import domen.OpstiDomenskiObjekat;
+import domen.Izvestaj;
 import domen.Putovanje;
-import java.util.List;
-import static so.OpstaSO.dbb;
+
 
 /**
  *
  * @author Sanja
  */
-public class SOPronadjiPutovanje extends OpstaSO{
+public class SOKreirajNoviIzvestaj extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-       List<OpstiDomenskiObjekat> rezultatPretrage = dbb.pronadji((Putovanje) obj);
-       return rezultatPretrage;
+        return dbb.ubaciSlog((Izvestaj) obj);
     }
 
     @Override
     public void proveriPreduslove(Object obj) throws RuntimeException {
-        
+
     }
-    
+
 }

@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package so;
+package poslovnalogika.so;
 
 import db.BrokerBaze;
 
 /**
- *
- * @author Aleksandar
+ * Opsta sistemska operacija
+ * Poziva izvrsenje so
+ * @author Sanja
  */
 public abstract class OpstaSO {
 

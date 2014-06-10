@@ -4,22 +4,29 @@
  * and open the template in the editor.
  */
 
-package so;
+package poslovnalogika.so;
+
+import domen.Biciklista;
+import domen.OpstiDomenskiObjekat;
+import domen.Putovanje;
+import java.util.List;
+import static poslovnalogika.so.OpstaSO.dbb;
 
 /**
  *
  * @author Sanja
  */
-public class SOPrikaziBiciklistu extends OpstaSO{
+public class SOPronadjiPutovanje extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       List<OpstiDomenskiObjekat> rezultatPretrage = dbb.pronadji((Putovanje) obj);
+       return rezultatPretrage;
     }
 
     @Override
     public void proveriPreduslove(Object obj) throws RuntimeException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
 }

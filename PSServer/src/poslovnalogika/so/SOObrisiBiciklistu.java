@@ -4,26 +4,25 @@
  * and open the template in the editor.
  */
 
-package so;
+package poslovnalogika.so;
 
-import domen.Izvestaj;
-import domen.Putovanje;
-
+import domen.Biciklista;
+import static poslovnalogika.so.OpstaSO.dbb;
 
 /**
  *
  * @author Sanja
  */
-public class SOKreirajNoviIzvestaj extends OpstaSO{
+public class SOObrisiBiciklistu extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        return dbb.ubaciSlog((Izvestaj) obj);
+        return dbb.izbrisiSlog((Biciklista) obj);
     }
 
     @Override
     public void proveriPreduslove(Object obj) throws RuntimeException {
-
+        
     }
-
+    
 }

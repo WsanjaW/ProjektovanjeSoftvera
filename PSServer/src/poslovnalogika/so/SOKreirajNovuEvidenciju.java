@@ -3,26 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package so;
 
+package poslovnalogika.so;
+
+import domen.Biciklista;
 import domen.Evidencija;
-import domen.Izvestaj;
-import static so.OpstaSO.dbb;
+import static poslovnalogika.so.OpstaSO.dbb;
 
 /**
  *
  * @author Sanja
  */
-public class SOZapamtiIzvestaj extends OpstaSO {
+public class SOKreirajNovuEvidenciju extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        return  dbb.zapamtiSlog((Izvestaj) obj);
+        return dbb.ubaciSlog((Evidencija) obj);
     }
 
     @Override
     public void proveriPreduslove(Object obj) throws RuntimeException {
-
+        
     }
-
+    
 }
