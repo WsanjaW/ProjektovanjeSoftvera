@@ -7,7 +7,7 @@
 package util;
 
 /**
- *
+ * Konstante za sistemske operacije
  * @author Sanja
  */
 public class Konstante {

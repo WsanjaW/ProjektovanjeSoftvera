@@ -3,18 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package domen;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
+ * Domenska klasa Kordinator
+ * 
  * @author Sanja
  */
-public class Kordinator extends OpstiDomenskiObjekat{
+public class Kordinator extends OpstiDomenskiObjekat {
+
     private int kordinatorID;
     private String ime;
     private String prezime;
@@ -23,7 +26,7 @@ public class Kordinator extends OpstiDomenskiObjekat{
 
     public Kordinator() {
         kordinatorID = 1;
-        
+
     }
 
     public int getKordinatorID() {
@@ -73,7 +76,7 @@ public class Kordinator extends OpstiDomenskiObjekat{
 
     @Override
     public String vratiVrednostAtributa() {
-        return "ime='"+ime + "',prezime='" +  prezime + "',username='" + username + "',passwoed='" + password + "'";
+        return "ime='" + ime + "',prezime='" + prezime + "',username='" + username + "',passwoed='" + password + "'";
     }
 
     @Override
@@ -83,12 +86,12 @@ public class Kordinator extends OpstiDomenskiObjekat{
 
     @Override
     public int vratiID() {
-       return kordinatorID;
+        return kordinatorID;
     }
 
     @Override
     public void postaviID(int id) {
-       kordinatorID = id;
+        kordinatorID = id;
     }
 
     @Override
@@ -107,19 +110,8 @@ public class Kordinator extends OpstiDomenskiObjekat{
     }
 
     @Override
-    public void popuniListu(ResultSet rs, List<OpstiDomenskiObjekat> lista) throws SQLException {
-            Kordinator k = new Kordinator();
-            k.setKordinatorID(rs.getInt("kordinatorid"));
-            k.setIme(rs.getString("ime"));
-            k.setPrezime(rs.getString("prezime"));
-            k.setUsername(rs.getString("username"));
-            k.setPassword(rs.getString("password"));
-            lista.add(k);
-    }
-
-    @Override
     public int vratiBrojPovezanihObjekata() {
-       return 0;
+        return 0;
     }
 
     @Override
@@ -129,26 +121,6 @@ public class Kordinator extends OpstiDomenskiObjekat{
 
     @Override
     public OpstiDomenskiObjekat vratiPovezanObjekat(int i, int j) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void popuniListuVezanih(List<OpstiDomenskiObjekat> lista2, List<OpstiDomenskiObjekat> lista, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String vratiNazivPovezanogObjekata(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String vratiUslovZaPovezanObjekat(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int vratiIdZaPovezan(int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -163,14 +135,28 @@ public class Kordinator extends OpstiDomenskiObjekat{
     }
 
     @Override
-    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
+        List<OpstiDomenskiObjekat> lista = new ArrayList<>();
+        try {
+            while (rs.next()) {
+               
+                Kordinator k = new Kordinator();
+                k.setKordinatorID(rs.getInt("kordinatorid"));
+                k.setIme(rs.getString("ime"));
+                k.setPrezime(rs.getString("prezime"));
+                k.setUsername(rs.getString("username"));
+                k.setPassword(rs.getString("password"));
+                lista.add(k);
+            }
+        } catch (SQLException sQLException) {
+             throw new RuntimeException("greska pri popunjavanju liste");
+        }
+        return lista;
     }
 
     @Override
     public void spoj(List<OpstiDomenskiObjekat> lista2, int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }

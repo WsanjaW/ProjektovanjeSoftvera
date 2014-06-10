@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  *
+ * Domenska klasa Mesto
+ * 
  * @author Sanja
  */
 public class Mesto extends OpstiDomenskiObjekat {
@@ -102,20 +104,6 @@ public class Mesto extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public void popuniListu(ResultSet rs, List<OpstiDomenskiObjekat> lista) throws SQLException {
-        Mesto m = new Mesto();
-        try {
-            m.setMestoId(rs.getInt("mestoid"));
-            m.setPttBroj(rs.getString("pttBroj"));
-            m.setNaziv(rs.getString("naziv"));
-            lista.add(m);
-
-        } catch (SQLException ex) {
-            throw new SQLException("greska pri popunjavanju liste");
-        }
-    }
-
-    @Override
     public String toString() {
         return naziv;
     }
@@ -136,26 +124,6 @@ public class Mesto extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public void popuniListuVezanih(List<OpstiDomenskiObjekat> lista2, List<OpstiDomenskiObjekat> lista, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String vratiNazivPovezanogObjekata(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String vratiUslovZaPovezanObjekat(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int vratiIdZaPovezan(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public OpstiDomenskiObjekat vratiNoviPovezaniObjekat(int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -166,7 +134,7 @@ public class Mesto extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         try {
             while (rs.next()) {
@@ -179,7 +147,7 @@ public class Mesto extends OpstiDomenskiObjekat {
             }
 
         } catch (SQLException ex) {
-           // throw new SQLException("greska pri popunjavanju liste");
+            throw new RuntimeException("greska pri popunjavanju liste");
         }
         return lista;
     }

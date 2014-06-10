@@ -6,13 +6,14 @@
 package domen;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 /**
  *
+ * Domenska klasa Izvestaj
+ * 
  * @author Sanja
  */
 public class Izvestaj extends OpstiDomenskiObjekat {
@@ -114,11 +115,6 @@ public class Izvestaj extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public void popuniListu(ResultSet rs, List<OpstiDomenskiObjekat> lista) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public int vratiBrojPovezanihObjekata() {
         return 0;
     }
@@ -134,26 +130,6 @@ public class Izvestaj extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public void popuniListuVezanih(List<OpstiDomenskiObjekat> lista2, List<OpstiDomenskiObjekat> lista, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String vratiNazivPovezanogObjekata(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String vratiUslovZaPovezanObjekat(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int vratiIdZaPovezan(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public OpstiDomenskiObjekat vratiNoviPovezaniObjekat(int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -164,7 +140,7 @@ public class Izvestaj extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

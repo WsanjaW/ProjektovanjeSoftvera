@@ -10,25 +10,25 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- *
- * @author Aleksandar
+ * Objekat koji se koristi za komunikaciju klijenta i servera
+ * 
+ * @author Sanja
  */
 public class TransferObjekat implements Serializable{
-    private static final long serialVersionUID = 111L;
-    
-    private Map<String,Object> mapa;
+       
+    private Map<String,Object> parametriKomunikacije;
     
     
     public TransferObjekat(Map<String, Object> mapa) {
-        this.mapa = mapa;
+        this.parametriKomunikacije = mapa;
     }
 
     public Map<String, Object> getMapa() {
-        return mapa;
+        return parametriKomunikacije;
     }
 
     public void setMapa(Map<String, Object> mapa) {
-        this.mapa = mapa;
+        this.parametriKomunikacije = mapa;
     }
 
     

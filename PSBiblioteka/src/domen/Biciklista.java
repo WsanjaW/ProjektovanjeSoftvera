@@ -12,11 +12,12 @@ import java.util.List;
 
 /**
  *
- * @author Aleksandar
+ * Domenska klasa Biciklista
+ * 
+ * @author Sanja
  */
 public class Biciklista extends OpstiDomenskiObjekat {
 
-    private static final long serialVersionUID = 1L;
     private int id;
     private String ime;
     private String prezime;
@@ -34,69 +35,71 @@ public class Biciklista extends OpstiDomenskiObjekat {
         this.id = id;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="geteti i seteri">
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getIme() {
         return ime;
     }
-
+    
     public void setIme(String ime) {
         this.ime = ime;
     }
-
+    
     public String getPrezime() {
         return prezime;
     }
-
+    
     public void setPrezime(String prezime) {
         this.prezime = prezime;
     }
-
+    
     public String getJmbg() {
         return jmbg;
     }
-
+    
     public void setJmbg(String jmbg) {
         this.jmbg = jmbg;
     }
-
+    
     public String getNazivBicikla() {
         return nazivBicikla;
     }
-
+    
     public void setNazivBicikla(String nazivBicikla) {
         this.nazivBicikla = nazivBicikla;
     }
-
+    
     public String getTipBicikla() {
         return tipBicikla;
     }
-
+    
     public void setTipBicikla(String tipBicikla) {
         this.tipBicikla = tipBicikla;
     }
-
+    
     public Mesto getMesto() {
         return mesto;
     }
-
+    
     public void setMesto(Mesto mesto) {
         this.mesto = mesto;
     }
-
+    
     public List<Evidencija> getEvidencije() {
         return evidencije;
     }
-
+    
     public void setEvidencije(List<Evidencija> evidencije) {
         this.evidencije = evidencije;
     }
+//</editor-fold>
 
     @Override
     public String toString() {
@@ -191,27 +194,6 @@ public class Biciklista extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public void popuniListu(ResultSet rs, List<OpstiDomenskiObjekat> lista) throws SQLException {
-        Biciklista bic = new Biciklista();
-        try {
-            bic.setId(rs.getInt("biciklistaid"));
-            bic.setIme(rs.getString("ime"));
-            bic.setPrezime(rs.getString("prezime"));
-            bic.setJmbg(rs.getString("jmbg"));
-            bic.setNazivBicikla(rs.getString("naziv_bicikla"));
-            bic.setTipBicikla(rs.getString("tip_bicikla"));
-            Mesto m = new Mesto();
-            m.setMestoId(rs.getInt("mestoid"));
-            bic.setMesto(m);
-            lista.add(bic);
-
-        } catch (SQLException ex) {
-            throw new SQLException("greska pri popunjavanju liste");
-        }
-
-    }
-
-    @Override
     public int vratiBrojPovezanihObjekata() {
         return 2;
     }
@@ -239,56 +221,6 @@ public class Biciklista extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public void popuniListuVezanih(List<OpstiDomenskiObjekat> lista2, List<OpstiDomenskiObjekat> lista, int i) {
-        if (i == 0) {
-            Evidencija evi = new Evidencija();
-            Biciklista p = (Biciklista) lista.get(lista.size() - 1);
-            for (OpstiDomenskiObjekat opstiDomenskiObjekat : lista2) {
-                p.getEvidencije().add((Evidencija) opstiDomenskiObjekat);
-            }
-        }
-        if (i == 1) {
-            Mesto m = new Mesto();
-            Biciklista p = (Biciklista) lista.get(lista.size() - 1);
-            if (!lista2.isEmpty()) {
-                p.setMesto((Mesto) lista2.get(0));
-            }
-
-        }
-    }
-
-    @Override
-    public String vratiNazivPovezanogObjekata(int i) {
-        if (i == 0) {
-            return "evidencija";
-        }
-        return "mesto";
-
-    }
-
-    @Override
-    public String vratiUslovZaPovezanObjekat(int i) {
-        if (i == 0) {
-            return "biciklistaid";
-        }
-        if (i == 1) {
-            return "mestoid";
-        }
-        return "1";
-    }
-
-    @Override
-    public int vratiIdZaPovezan(int i) {
-        if (i == 0) {
-            return id;
-        }
-        if (i == 1) {
-            return mesto.getMestoId();
-        }
-        return 1;
-    }
-
-    @Override
     public OpstiDomenskiObjekat vratiNoviPovezaniObjekat(int i) {
         if (i == 0) {
             Evidencija ev = new Evidencija();
@@ -309,7 +241,7 @@ public class Biciklista extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         try {
             while (rs.next()) {
@@ -328,7 +260,7 @@ public class Biciklista extends OpstiDomenskiObjekat {
 
             }
         } catch (SQLException ex) {
-          //  throw new SQLException("greska pri popunjavanju liste");
+            throw new RuntimeException("greska pri popunjavanju liste");
         }
         return lista;
     }

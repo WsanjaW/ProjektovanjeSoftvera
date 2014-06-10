@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  *
+ * Domenska klasa Evidencija
+ * 
  * @author Sanja
  */
 public class Evidencija extends OpstiDomenskiObjekat {
@@ -115,22 +117,6 @@ public class Evidencija extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public void popuniListu(ResultSet rs, List<OpstiDomenskiObjekat> lista) throws SQLException {
-        Evidencija evi = new Evidencija();
-        try {
-            evi.setBiciklista(new Biciklista(rs.getInt("biciklistaid")));
-            evi.setPutovanje(new Putovanje(rs.getInt("putovanjeid")));
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            evi.setDatumOd(rs.getDate("datumOd"));
-            evi.setDatumDo(rs.getDate("datumDo"));
-            lista.add(evi);
-
-        } catch (SQLException ex) {
-            throw new SQLException("greska pri popunjavanju liste");
-        }
-    }
-
-    @Override
     public int vratiBrojPovezanihObjekata() {
         return 1;
     }
@@ -143,44 +129,6 @@ public class Evidencija extends OpstiDomenskiObjekat {
     @Override
     public OpstiDomenskiObjekat vratiPovezanObjekat(int i, int j) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void popuniListuVezanih(List<OpstiDomenskiObjekat> lista2, List<OpstiDomenskiObjekat> lista, int i) {
-        if (i == 0) {
-            Evidencija p = (Evidencija) lista.get(lista.size() - 1);
-            if (!lista2.isEmpty()) {
-                p.setPutovanje((Putovanje) lista2.get(0));
-            }
-        }
-
-    }
-
-    @Override
-    public String vratiNazivPovezanogObjekata(int i) {
-        if (i == 0) {
-            return "putovanje";
-        }
-
-        return null;
-    }
-
-    @Override
-    public String vratiUslovZaPovezanObjekat(int i) {
-        if (i == 0) {
-            return "putovanjeid";
-        }
-
-        return null;
-    }
-
-    @Override
-    public int vratiIdZaPovezan(int i) {
-        if (i == 0) {
-            return putovanje.getPutovanjeID();
-        }
-
-        return 0;
     }
 
     @Override
@@ -200,7 +148,7 @@ public class Evidencija extends OpstiDomenskiObjekat {
     }
 
     @Override
-    public List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs) {
+    public List<OpstiDomenskiObjekat> vratiListu(ResultSet rs) {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         try {
             while (rs.next()) {
@@ -215,7 +163,7 @@ public class Evidencija extends OpstiDomenskiObjekat {
             }
 
         } catch (SQLException ex) {
-            //throw new SQLException("greska pri popunjavanju liste");
+            throw new RuntimeException("greska pri popunjavanju liste");
         }
         return lista;
     }

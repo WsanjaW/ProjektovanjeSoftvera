@@ -13,7 +13,9 @@ import java.util.List;
 
 /**
  *
- * @author Aleksandar
+ * Opsti domenski objekat
+ * 
+ * @author Sanja
  */
 public abstract class OpstiDomenskiObjekat implements Serializable{
    
@@ -26,29 +28,15 @@ public abstract class OpstiDomenskiObjekat implements Serializable{
     public abstract String vratiVrednostiZaIzmenu();
     public abstract String vratiUslov();
     public abstract String vratiUslovPretrage();
-
-    public abstract void popuniListu(ResultSet rs,List<OpstiDomenskiObjekat> lista) throws SQLException;
     
     public abstract int vratiBrojPovezanihObjekata();
     public abstract int vratiBrojObjekata(int i);
     public abstract OpstiDomenskiObjekat vratiPovezanObjekat(int i,int j);
-
-    public abstract void popuniListuVezanih(List<OpstiDomenskiObjekat> lista2,List<OpstiDomenskiObjekat> lista, int i);
-
-    public abstract String vratiNazivPovezanogObjekata(int i);
-
-    public abstract String vratiUslovZaPovezanObjekat(int i);
-
-    public abstract int vratiIdZaPovezan(int i);
-
     public abstract OpstiDomenskiObjekat vratiNoviPovezaniObjekat(int i);
-
     public abstract boolean povezanObjekatZaIzmenu(int i);
-
-    
-
-    public abstract List<OpstiDomenskiObjekat> vratiListuRek(ResultSet rs);
-
     public abstract void spoj(List<OpstiDomenskiObjekat> lista2, int i);
+    
+    public abstract List<OpstiDomenskiObjekat> vratiListu(ResultSet rs);
+    
    
 }
