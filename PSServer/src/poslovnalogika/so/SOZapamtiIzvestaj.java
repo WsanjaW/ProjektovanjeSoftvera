@@ -17,7 +17,8 @@ public class SOZapamtiIzvestaj extends OpstaSO {
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        return  dbb.zapamtiSlog((Izvestaj) obj);
+        dbb.zapamti((Izvestaj) obj);
+        return obj;
     }
 
     @Override

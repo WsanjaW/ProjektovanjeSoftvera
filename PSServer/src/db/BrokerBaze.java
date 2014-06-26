@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.management.RuntimeErrorException;
+import util.Util;
 
 /**
  *
@@ -24,24 +25,26 @@ public class BrokerBaze {
     Connection konekcija;
 
     /**
-     * Otvaranje konekcije na mysql bazu
-     * TODO property
-     * @throws RuntimeException 
+     * Otvaranje konekcije na mysql bazu TODO property
+     *
+     * @throws RuntimeException
      */
     public void otvoriKonekciju() throws RuntimeException {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            konekcija = DriverManager.getConnection("jdbc:mysql://localhost/ps_baza?user=root&password=root");
+            Class.forName(Util.getInstance().getDriver());
+            konekcija = DriverManager.getConnection(Util.getInstance().getConnectionUrl());
             konekcija.setAutoCommit(false);
         } catch (Exception ex) {
             throw new RuntimeException("Neuspesno otvaranje konekcije!");
         }
 
     }
+
     /**
      * Zatvaranje konekcije
-     * @throws RuntimeException 
+     *
+     * @throws RuntimeException
      */
     public void zatvoriKonekciju() throws RuntimeException {
 
@@ -52,9 +55,11 @@ public class BrokerBaze {
         }
 
     }
+
     /**
      * Commit
-     * @throws RuntimeException 
+     *
+     * @throws RuntimeException
      */
     public void commitTransakcije() throws RuntimeException {
 
@@ -65,9 +70,11 @@ public class BrokerBaze {
         }
 
     }
+
     /**
      * Rollback
-     * @throws RuntimeException 
+     *
+     * @throws RuntimeException
      */
     public void rollbackTransakcije() throws RuntimeException {
 
@@ -78,13 +85,15 @@ public class BrokerBaze {
         }
 
     }
+
     /**
-     * Ubacivanje novog OpstogDomenskogObjekta u bazu
+     * Vraca id od datog objekta
      * @param domenskiObjekat
-     * @return ubacen domenski objekat
+     * @return id
      * @throws RuntimeException 
      */
-    public OpstiDomenskiObjekat ubaciSlog(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeException {
+    public int vratiID(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeException {
+        int id = 0;
         try {
             Statement s = konekcija.createStatement();
             //pronadji najvecu vrednost id-a u tabeli
@@ -92,16 +101,33 @@ public class BrokerBaze {
                     + domenskiObjekat.nazivTabele();
 
             ResultSet rs = s.executeQuery(upitID);
+
             //ako je tabela prazna postavi id na 1
             if (rs.next() == false) {
-                domenskiObjekat.postaviID(1);
-            }
-            //ako nije prazna onda ce id biti nadjeni maksimalni +1
+                id = 1;
+            } //ako nije prazna onda ce id biti nadjeni maksimalni +1
             else {
-                domenskiObjekat.postaviID(rs.getInt(1) + 1);
+                id = rs.getInt(1);
             }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            throw new RuntimeException("Neuspesno postavljanje ID-a");
+        }
+        return id;
+    }
 
-            s = konekcija.createStatement();
+    /**
+     * Ubacivanje novog OpstogDomenskogObjekta u bazu
+     *
+     * @param domenskiObjekat
+     * @return ubacen domenski objekat
+     * @throws RuntimeException
+     */
+    public void ubaci(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeException {
+        try {
+
+            Statement s = konekcija.createStatement();
+
             //ubacivanje u bazu
             String upit = "INSERT INTO " + domenskiObjekat.nazivTabele() + "(" + domenskiObjekat.vratiAtribute() + ") VALUES ("
                     + domenskiObjekat.vratiVrednostAtributa() + ")";
@@ -114,15 +140,17 @@ public class BrokerBaze {
             throw new RuntimeException("Neuspesno ubcivanje novog objekata");
 
         }
-        return domenskiObjekat;
+       
     }
+
     /**
      * Pamti(menja) vrednosti sloga u bazi
+     *
      * @param domenskiObjekat
      * @return
-     * @throws RuntimeException 
+     * @throws RuntimeException
      */
-    public OpstiDomenskiObjekat zapamtiSlog(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeException {
+    public void zapamti(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeException {
 
         try {
             Statement s = konekcija.createStatement();
@@ -133,6 +161,23 @@ public class BrokerBaze {
             System.out.println(upit);
             s.executeUpdate(upit);
             System.out.println("izvrsen");
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            throw new RuntimeException("Neuspesno pamcenje objekata");
+        }
+       // return domenskiObjekat;
+    }
+    /**
+     * Pamti(ubacuje) objekte koji su povezani sa datim objektom
+     * @param domenskiObjekat
+     * @throws RuntimeException 
+     */
+    public void zapamtiPovezane(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeException {
+
+        try {
+            Statement s = konekcija.createStatement();
+            String upit = "";
             //ako objekat koji se pamti ima povezane objekte njih je potrebno sacuvati u bazi (slab objekat)
             for (int i = 0; i < domenskiObjekat.vratiBrojPovezanihObjekata(); i++) {
                 if (domenskiObjekat.povezanObjekatZaIzmenu(i)) {
@@ -150,15 +195,17 @@ public class BrokerBaze {
             System.out.println(ex.getMessage());
             throw new RuntimeException("Neuspesno pamcenje objekata");
         }
-        return domenskiObjekat;
+       // return domenskiObjekat;
     }
+
     /**
      * Brisanje sloga iz baze
+     *
      * @param domenskiObjekat objekat koji treba izbrisati
      * @return
-     * @throws RuntimeErrorException 
+     * @throws RuntimeErrorException
      */
-    public OpstiDomenskiObjekat izbrisiSlog(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeErrorException {
+    public void izbrisi(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeErrorException {
 
         try {
             Statement s = konekcija.createStatement();
@@ -173,21 +220,22 @@ public class BrokerBaze {
             throw new RuntimeException("Neuspesno brisanje objekata");
 
         }
-       
-        return domenskiObjekat;
+
+      //  return domenskiObjekat;
     }
+
     /**
      * Pronalazenje slogova u bazi koji zadovoljavaju uslov pretrage
-     * 
+     *
      * @param domenskiObjekat
      * @return lista pronadjenih objekata
-     * @throws RuntimeErrorException 
+     * @throws RuntimeErrorException
      */
-    public List<OpstiDomenskiObjekat> pronadji(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeErrorException{
-       
+    public List<OpstiDomenskiObjekat> pronadji(OpstiDomenskiObjekat domenskiObjekat) throws RuntimeErrorException {
+
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         try {
-           
+
             Statement s = konekcija.createStatement();
             //uzmi slogove koji zadovoljavaju kriterijum
             String upit = "SELECT * FROM " + domenskiObjekat.nazivTabele() + " WHERE "
@@ -203,15 +251,15 @@ public class BrokerBaze {
                     //pronaji povezan objekat
                     lista2 = pronadji(obj.vratiNoviPovezaniObjekat(i));
                     //spoj sa "glavnim" objektom
-                    obj.spoj(lista2,i);
-                } 
+                    obj.spoj(lista2, i);
+                }
             }
-            
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             throw new RuntimeException("Neuspesno brisanje objekata");
         }
         return lista;
-    
+
     }
 }

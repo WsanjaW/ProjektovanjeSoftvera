@@ -16,7 +16,8 @@ public class SOZapamtiBiciklistu extends OpstaSO {
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
 
-        return dbb.zapamtiSlog((Biciklista) obj);
+        dbb.zapamti((Biciklista) obj);
+        return obj;
 
     }
 
@@ -25,7 +26,7 @@ public class SOZapamtiBiciklistu extends OpstaSO {
         Biciklista b = (Biciklista) obj;
         if (b.getId() <= 0 || b.getIme() == null || b.getIme().isEmpty()
                 || b.getPrezime() == null || b.getPrezime().isEmpty()
-                || b.getJmbg() == null || b.getJmbg().isEmpty()) {
+                || b.getJmbg() == null || b.getJmbg().isEmpty() || b.getMesto() == null) {
             throw new RuntimeException("Nisu ispunjeni preduslovi");
         }
     }

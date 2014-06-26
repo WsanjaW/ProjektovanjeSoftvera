@@ -17,7 +17,7 @@ import static poslovnalogika.so.OpstaSO.dbb;
  *
  * @author Sanja
  */
-public class SOUcitajMesta extends OpstaSO{
+public class SOUcitajPodatke extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {

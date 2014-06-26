@@ -7,6 +7,7 @@
 package poslovnalogika.so;
 
 import domen.Biciklista;
+import domen.OpstiDomenskiObjekat;
 
 /**
  *
@@ -16,7 +17,11 @@ public class SOKreirajNovogBiciklistu extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        return dbb.ubaciSlog((Biciklista) obj);
+        Biciklista bic = (Biciklista) obj;
+        dbb.ubaci(bic);
+        int id = dbb.vratiID(bic);
+        bic.postaviID(id);
+        return bic;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class SOPronadjiBiciklistu extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-       List<OpstiDomenskiObjekat> rezultatPretrage = dbb.pronadji((Biciklista) obj);
+        List<OpstiDomenskiObjekat> rezultatPretrage = dbb.pronadji((Biciklista) obj);
         if (rezultatPretrage.isEmpty()) {
             throw new RuntimeException("Biciklista nije pronadjen");
         }

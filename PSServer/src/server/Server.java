@@ -19,7 +19,8 @@ import java.util.logging.Logger;
  */
 public class Server {
     
-    public static void main(String[] args) {
+    
+    public static  void pokreniServer() {
         try {
             ServerSocket serverSocket = new ServerSocket(8189);
             System.out.println("pokrenut");

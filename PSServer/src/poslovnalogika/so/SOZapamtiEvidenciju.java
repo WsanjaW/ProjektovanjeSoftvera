@@ -6,9 +6,7 @@
 
 package poslovnalogika.so;
 
-import domen.Biciklista;
 import domen.Evidencija;
-import domen.Putovanje;
 import static poslovnalogika.so.OpstaSO.dbb;
 
 /**
@@ -19,12 +17,18 @@ public class SOZapamtiEvidenciju extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        return  dbb.zapamtiSlog((Evidencija) obj);
+        dbb.zapamti((Evidencija) obj);
+        return obj;
     }
 
     @Override
     public void proveriPreduslove(Object obj) throws RuntimeException {
-       
+        Evidencija evi = (Evidencija) obj;
+        if (evi.getBiciklista() != null || evi.getPutovanje() != null 
+                || evi.getDatumOd() != null || evi.getDatumDo() != null
+                || evi.getDatumDo().before(evi.getDatumOd())) {
+            throw new RuntimeException("Nije zadovoljen preduslov");
+        }
     }
     
 }

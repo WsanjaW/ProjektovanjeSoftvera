@@ -7,7 +7,6 @@
 package poslovnalogika.so;
 
 import domen.Izvestaj;
-import domen.Putovanje;
 
 
 /**
@@ -18,7 +17,11 @@ public class SOKreirajNoviIzvestaj extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        return dbb.ubaciSlog((Izvestaj) obj);
+        Izvestaj izv = (Izvestaj) obj;
+        dbb.ubaci(izv);
+        int id = dbb.vratiID(izv);
+        izv.postaviID(id);
+        return izv;
     }
 
     @Override

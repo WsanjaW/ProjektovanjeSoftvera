@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import transfer.TransferObjekat;
 
 /**
@@ -38,6 +40,14 @@ public class KomunikacijaServer {
 
     public TransferObjekat primi() throws IOException, ClassNotFoundException {
         return (TransferObjekat) in.readObject();
+    }
+    
+    public void prekiniKomunikaciju(){
+        try {
+            soket.close();
+        } catch (IOException ex) {
+           ex.printStackTrace();
+        }
     }
 
 }

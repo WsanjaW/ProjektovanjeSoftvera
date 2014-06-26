@@ -13,7 +13,7 @@ import poslovnalogika.so.SOKreirajNovuEvidenciju;
 import poslovnalogika.so.SOObrisiBiciklistu;
 import poslovnalogika.so.SOPronadjiBiciklistu;
 import poslovnalogika.so.SOPronadjiPutovanje;
-import poslovnalogika.so.SOUcitajMesta;
+import poslovnalogika.so.SOUcitajPodatke;
 import poslovnalogika.so.SOUlogujSe;
 import poslovnalogika.so.SOZapamtiBiciklistu;
 import poslovnalogika.so.SOZapamtiEvidenciju;
@@ -102,7 +102,7 @@ public class Kontroler {
     }
 
     public Object ucitajMesta(Object domenskiObjekat) {
-        sistemskaOperacija = new SOUcitajMesta();
+        sistemskaOperacija = new SOUcitajPodatke();
         return sistemskaOperacija.izvrsenjeOpsteSO(domenskiObjekat);
     }
 

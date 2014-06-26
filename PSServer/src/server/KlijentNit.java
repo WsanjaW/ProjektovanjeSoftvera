@@ -21,10 +21,12 @@ import util.Konstante;
 class KlijentNit extends Thread {
 
     KomunikacijaServer kom;
+    boolean kraj;
 
     public KlijentNit(Socket klientSocket) {
         try {
             kom = new KomunikacijaServer(klientSocket);
+            kraj = false;
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -34,11 +36,11 @@ class KlijentNit extends Thread {
     @Override
     public void run() {
 
-        while (true) {
+        while (!kraj) {
             TransferObjekat to = null;
             try {
                 to = kom.primi();
-                OpstaSO sistemskaOperacija = null;
+               
                 Object obj = null;
                 //uzmi operaciju od klijenta
                 int operacija = (int) to.getMapa().get("operacija");
@@ -60,13 +62,13 @@ class KlijentNit extends Thread {
                     case Konstante.KREIRAJ_IZVESTAJ:
                         obj = Kontroler.getInstance().kreirajIzvestaj(domenskiObjekat);
                         to.getMapa().put("domenskiObjekat", obj);
-                        to.getMapa().put("poruka", "Izvestaj je uspesno kreiran");
+                        to.getMapa().put("poruka", "Sistem je kreirao novi izveštaj");
                         break;
 
                     case Konstante.KREIRAJ_EVIDENCIJU:
                         obj = Kontroler.getInstance().kreirajEvidenciju(domenskiObjekat);
                         to.getMapa().put("domenskiObjekat", obj);
-                        to.getMapa().put("poruka", "Evidencija je uspesno kreirana");
+                        to.getMapa().put("poruka", "Sistem je zapamtio evidenciju putovanja");
                         break;
 
                     case Konstante.OBRISI_BICIKLISTU:
@@ -76,17 +78,17 @@ class KlijentNit extends Thread {
                     case Konstante.PRONADJI_BICIKLISTU:
                         obj = Kontroler.getInstance().pronadjiBiciklistu(domenskiObjekat);
                         to.getMapa().put("rezultatPretrage", obj);
-                        to.getMapa().put("poruka", "Biciklisti su uspesno pronadjeni");
+                        to.getMapa().put("poruka", "Sistem je pronašao bicikliste");
                         break;
                     case Konstante.PRONADJI_PUTOVANJE:
                         obj = Kontroler.getInstance().pronadjiPutovanja(domenskiObjekat);
                         to.getMapa().put("rezultatPretrage", obj);
-                        to.getMapa().put("poruka", "Putovanja su uspesno pronadjena");
+                        to.getMapa().put("poruka", "Sistem je pronašao putovanja");
                         break;
                     case Konstante.ZAPAMTI_BICIKLISTU:
                         Kontroler.getInstance().zapamtiBiciklistu(domenskiObjekat);
 
-                        to.getMapa().put("poruka", "Biciklista je uspesno zapamcen");
+                        to.getMapa().put("poruka", "Sistem je zapamtio biciklistu");
                         break;
 
                     case Konstante.ZAPAMTI_PUTOVANJE:
@@ -97,17 +99,17 @@ class KlijentNit extends Thread {
                     case Konstante.ZAPAMTI_EVIDENCIJU:
                         Kontroler.getInstance().zapamtiEvidenciju(domenskiObjekat);
 
-                        to.getMapa().put("poruka", "Evidencija je uspesno zapamcena");
+                        to.getMapa().put("poruka", "Sistem je zapamtio evidenciju putovanja");
                         break;
                     case Konstante.ZAPAMTI_IZVESTAJ:
                         Kontroler.getInstance().zapamtiIzvestaj(domenskiObjekat);
 
-                        to.getMapa().put("poruka", "Izvestaj uspesno zapamcen");
+                        to.getMapa().put("poruka", "ISistem je zapamtio izveštaj");
                         break;
                     case Konstante.ULOGUJ_SE:
                         obj = Kontroler.getInstance().ulogujSe(domenskiObjekat);
                         to.getMapa().put("rezultatPretrage", obj);
-                        to.getMapa().put("poruka", "Korisnik je ulogovan");
+                        to.getMapa().put("poruka", "Kordinator je prijavljen na sistem");
                         break;
                     case Konstante.UCITAJ_MESTA:
                         obj = Kontroler.getInstance().ucitajMesta(domenskiObjekat);
@@ -115,6 +117,9 @@ class KlijentNit extends Thread {
                         to.getMapa().put("poruka", "Mesta su uspesno ucitana");
                         break;
 
+                    case Konstante.KRAJ:
+                        kraj = true;
+                        break;
                     default:
                         throw new AssertionError();
                 }
@@ -126,6 +131,7 @@ class KlijentNit extends Thread {
             //posalji odgovor klijentu
             kom.posalji(to);
         }
+        kom.prekiniKomunikaciju();
 
     }
 

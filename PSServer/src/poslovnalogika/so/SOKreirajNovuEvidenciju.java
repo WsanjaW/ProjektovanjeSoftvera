@@ -6,8 +6,8 @@
 
 package poslovnalogika.so;
 
-import domen.Biciklista;
 import domen.Evidencija;
+import domen.OpstiDomenskiObjekat;
 import static poslovnalogika.so.OpstaSO.dbb;
 
 /**
@@ -18,7 +18,11 @@ public class SOKreirajNovuEvidenciju extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        return dbb.ubaciSlog((Evidencija) obj);
+        Evidencija evi = (Evidencija) obj;
+        dbb.ubaci(evi);
+        int id = dbb.vratiID(evi);
+        evi.postaviID(id);
+        return evi;
     }
 
     @Override

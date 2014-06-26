@@ -17,7 +17,8 @@ public class SOObrisiBiciklistu extends OpstaSO{
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        return dbb.izbrisiSlog((Biciklista) obj);
+       dbb.izbrisi((Biciklista) obj);
+       return obj;
     }
 
     @Override

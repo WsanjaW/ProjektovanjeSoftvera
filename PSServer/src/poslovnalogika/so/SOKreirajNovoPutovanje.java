@@ -5,6 +5,7 @@
  */
 package poslovnalogika.so;
 
+import domen.OpstiDomenskiObjekat;
 import domen.Putovanje;
 import static poslovnalogika.so.OpstaSO.dbb;
 
@@ -16,7 +17,11 @@ public class SOKreirajNovoPutovanje extends OpstaSO {
 
     @Override
     public Object izvrsiSO(Object obj) throws RuntimeException {
-        return dbb.ubaciSlog((Putovanje) obj);
+        Putovanje put = (Putovanje) obj;
+        dbb.ubaci(put);
+        int id = dbb.vratiID(put);
+        put.postaviID(id);
+        return put;
     }
 
     @Override
