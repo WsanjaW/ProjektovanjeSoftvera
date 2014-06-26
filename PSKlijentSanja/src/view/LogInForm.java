@@ -5,19 +5,15 @@
  */
 package view;
 
-import domen.Kordinator;
-import domen.OpstiDomenskiObjekat;
-import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.table.AbstractTableModel;
+import util.Util;
 import view.kontroler.login.KontrolerLogIn;
-
 
 /**
  * Forma za logovanje
+ *
  * @author Sanja
  */
 public class LogInForm extends javax.swing.JFrame {
@@ -47,6 +43,10 @@ public class LogInForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        hostMenuItem = new javax.swing.JMenuItem();
+        portMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Log in");
@@ -70,6 +70,28 @@ public class LogInForm extends javax.swing.JFrame {
                 jPasswordField1ActionPerformed(evt);
             }
         });
+
+        jMenu2.setText("Podesavanja");
+
+        hostMenuItem.setText("Host");
+        hostMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hostMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(hostMenuItem);
+
+        portMenuItem.setText("Port");
+        portMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                portMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(portMenuItem);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,7 +132,7 @@ public class LogInForm extends javax.swing.JFrame {
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(loginButton)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -122,7 +144,8 @@ public class LogInForm extends javax.swing.JFrame {
 
     /**
      * Logovanje na sistem
-     * @param evt 
+     *
+     * @param evt
      */
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         try {
@@ -135,9 +158,26 @@ public class LogInForm extends javax.swing.JFrame {
         }
 
 
-        
-
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void portMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portMenuItemActionPerformed
+
+        String port = JOptionPane.showInputDialog("Unesite broj porta", Integer.valueOf(Util.getInstance().getPort()));
+        if (port != null) {
+            //Util.getInstance().setHost(Util.getInstance().getHost());
+            Util.getInstance().setPort(port);
+        }
+    }//GEN-LAST:event_portMenuItemActionPerformed
+
+    private void hostMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hostMenuItemActionPerformed
+        String host = JOptionPane.showInputDialog("Unesite ip adresu hosta", Util.getInstance().getHost());
+        if (host != null) {
+            //Util.getInstance().setPort(String.valueOf(Util.getInstance().getPort()));
+            Util.getInstance().setHost(host);
+        }
+
+
+    }//GEN-LAST:event_hostMenuItemActionPerformed
 
     public JPasswordField getjPasswordField1() {
         return jPasswordField1;
@@ -191,13 +231,16 @@ public class LogInForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem hostMenuItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JButton loginButton;
+    private javax.swing.JMenuItem portMenuItem;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 
-   
 }

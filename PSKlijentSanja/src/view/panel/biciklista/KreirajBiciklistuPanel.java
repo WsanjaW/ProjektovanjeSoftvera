@@ -7,6 +7,7 @@ package view.panel.biciklista;
 
 import domen.Biciklista;
 import domen.OpstiDomenskiObjekat;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -31,7 +32,7 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel {
         kontrolerUnosBicikliste = new KontrolerUnosBicikliste(this);
         sacuvajButton.setEnabled(false);
         popuniMesta();
-      
+
     }
 
     /**
@@ -142,12 +143,14 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void kreirajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kreirajButtonActionPerformed
-       
+
         try {
+
             String poruka = kontrolerUnosBicikliste.kreirajNovogBiciklistu();
             JOptionPane.showMessageDialog(this, poruka);
             sacuvajButton.setEnabled(true);
             kreirajButton.setEnabled(false);
+
         } catch (RuntimeException runtimeException) {
             JOptionPane.showMessageDialog(this, runtimeException.getMessage());
         }
@@ -156,15 +159,18 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel {
 
     private void sacuvajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sacuvajButtonActionPerformed
         try {
-            String poruka = kontrolerUnosBicikliste.sacuvajBiciklistu();
-            JOptionPane.showMessageDialog(this, poruka);
-            kreirajButton.setEnabled(true);
-            sacuvajButton.setEnabled(false);
-            postaviPocetneVrednosti();
+            if (validanUnos()) {
+                String poruka = kontrolerUnosBicikliste.sacuvajBiciklistu();
+                JOptionPane.showMessageDialog(this, poruka);
+                kreirajButton.setEnabled(true);
+                sacuvajButton.setEnabled(false);
+                postaviPocetneVrednosti();
+            }
+
         } catch (RuntimeException runtimeException) {
             JOptionPane.showMessageDialog(this, runtimeException.getMessage());
         }
-        
+
     }//GEN-LAST:event_sacuvajButtonActionPerformed
 
     public JTextField getIdTextField() {
@@ -179,7 +185,6 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel {
         return jmbgTextField;
     }
 
-   
     public List<JComboBox> getMestoComboBox() {
         List<JComboBox> lista = new ArrayList<>();
 
@@ -253,10 +258,9 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void popuniMesta() {
-       // kontrolorMesta.pronadji();
-        //mestoComboBox.setModel(new DefaultComboBoxModel(mesta.toArray()));
+
         kontrolerUnosBicikliste.vratiMesta(mestoComboBox);
-        
+
     }
 
     private void postaviPocetneVrednosti() {
@@ -265,9 +269,34 @@ public class KreirajBiciklistuPanel extends javax.swing.JPanel {
         prezimeTextField.setText("");
         jmbgTextField.setText("");
         nazivBiciklaTextField.setText("");
-        
+
     }
 
-    
+    private boolean validanUnos() {
+        boolean validno = true;
+        if (imeTextField.getText().isEmpty()) {
+            imeTextField.setBackground(Color.RED);
+            validno = false;
+        } else {
+            imeTextField.setBackground(Color.WHITE);
+        }
+        if (prezimeTextField.getText().isEmpty()) {
+            prezimeTextField.setBackground(Color.RED);
+            validno = false;
+        }else{
+            prezimeTextField.setBackground(Color.WHITE);
+        }
+        if (jmbgTextField.getText().isEmpty() || !jmbgTextField.getText().matches("\\d{13}")) {
+            jmbgTextField.setBackground(Color.RED);
+            validno = false;
+        }else{
+            jmbgTextField.setBackground(Color.WHITE);
+        }
+        if (!validno) {
+             JOptionPane.showMessageDialog(null,"Podaci nisu ispravno uneti");
+        }
+       
+        return validno;
+    }
 
 }

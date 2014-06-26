@@ -8,7 +8,7 @@ package view.kontroler.putovanja;
 import domen.Mesto;
 import domen.OpstiDomenskiObjekat;
 import domen.Putovanje;
-import domen.Track;
+import domen.Trek;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -43,19 +43,22 @@ public class KontrolerUnosPutovanja extends OpstiKontroler {
         putovanje.setOdMesta((Mesto) f.getMestoOdComboBox().getSelectedItem());
         putovanje.setDoMesta((Mesto) f.getMestoDoComboBox().getSelectedItem());
         putovanje.setNaziv(f.getNazivTextField().getText());
-        List<Track> trackovi = f.getTtm().getTrekovi();
-        for (Track track : trackovi) {
+        List<Trek> trackovi = f.getTtm().getTrekovi();
+        for (Trek track : trackovi) {
             track.setPutovanje(putovanje);
         }
         putovanje.setTrackovi(f.getTtm().getTrekovi());
         return putovanje;
     }
 
-    public String kreirajNovoPutovanje() {
+    public String kreirajNovoPutovanje() throws RuntimeException{
         parametriKomunikacije.clear();
         parametriKomunikacije.put("domenskiObjekat", kreirajObjekat());
         parametriKomunikacije.put("operacija", Konstante.KREIRAJ_PUTOVANJE);
         signal = pozoviSO();
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Sistem ne može da kreira novo putovanje");
+        }
         prikaziRezultatSO();
         return signal;
     }
@@ -89,7 +92,7 @@ public class KontrolerUnosPutovanja extends OpstiKontroler {
         parametriKomunikacije.put("operacija", Konstante.ZAPAMTI_PUTOVANJE);
         signal = pozoviSO();
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException("Putovanje ne moze biti zapamceno");
+            throw new RuntimeException("Sistem ne može da zapamti novo putovanje");
         }
         prikaziRezultatSO();
         return signal;

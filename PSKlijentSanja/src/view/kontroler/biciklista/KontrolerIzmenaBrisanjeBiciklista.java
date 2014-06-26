@@ -69,7 +69,7 @@ public class KontrolerIzmenaBrisanjeBiciklista extends OpstiKontroler {
         signal = pozoviSO();
         //ako se desio izuzetak(nije uspesno izvrsena so) 
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException("Biciklista ne moze biti izbrisan");
+            throw new RuntimeException("Sistem ne može da obriše biciklistu");
         }
         prikaziRezultatSO();
         return signal;
@@ -91,7 +91,7 @@ public class KontrolerIzmenaBrisanjeBiciklista extends OpstiKontroler {
         signal = pozoviSO();
         //ako se desio izuzetak(nije uspesno izvrsena so) 
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException("Biciklista ne moze biti izbrisan");
+            throw new RuntimeException("Sistem ne može da zapamti biciklistu");
         }
         prikaziRezultatSO();
         return signal;

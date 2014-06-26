@@ -63,7 +63,7 @@ public class KontrolerLogIn extends OpstiKontroler {
         parametriKomunikacije.put("operacija", Konstante.ULOGUJ_SE);
         signal = pozoviSO();
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException("Neuspesno logovanje korisnika");
+            throw new RuntimeException("Sistem ne može da nađe kordinatora na osnovu unetih vrednosti");
         }
         prikaziRezultatSO();
         return signal;

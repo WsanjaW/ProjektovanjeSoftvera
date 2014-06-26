@@ -70,7 +70,7 @@ public class KontrolerPretragaBiciklista extends OpstiKontroler {
         signal = pozoviSO();
         //ako se desio izuzetak(nije uspesno izvrsena so) 
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException("Biciklista nije pronadjen");
+            throw new RuntimeException("Sistem ne može da nađe bicikliste po zadatim vrednostima");
         }
         prikaziRezultatSO();
         return signal;

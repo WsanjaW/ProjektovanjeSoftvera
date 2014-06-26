@@ -5,10 +5,19 @@
  */
 package view;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import komunikacija.Komunikacija;
 import sesija.Sesija;
+import transfer.TransferObjekat;
+import util.Konstante;
 
 /**
  * Glavna forma
+ *
  * @author Sanja
  */
 public class GlavnaForma extends javax.swing.JFrame {
@@ -40,6 +49,14 @@ public class GlavnaForma extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Glavna forma");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jMenu1.setText("Otvori");
 
@@ -116,6 +133,24 @@ public class GlavnaForma extends javax.swing.JFrame {
     private void evidencijaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evidencijaMenuItemActionPerformed
         new EvidencijaForm(null, true).setVisible(true);
     }//GEN-LAST:event_evidencijaMenuItemActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        System.out.println("zatvara se");
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("operacija", Konstante.KRAJ);
+            TransferObjekat to = new TransferObjekat(map);
+            Komunikacija.getInstance().posalji(to);
+            TransferObjekat primljeniObjekat = Komunikacija.getInstance().primi();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        System.out.println("sdadas");
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+     
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

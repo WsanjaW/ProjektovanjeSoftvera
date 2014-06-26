@@ -1,0 +1,29 @@
+<gpx
+ version="1.0"
+ creator="OziExplorer Version 3954q - http://www.oziexplorer.com"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns="http://www.topografix.com/GPX/1/0"
+ xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
+<trk>
+ <name>mehovKrs-prijepolje</name>
+ <desc>ACTIVE LOG</desc>
+<trkseg>
+<trkpt lat="42.9267800" lon="20.3629901">
+
+<time>2005-09-10T12:53:53.002Z</time>
+</trkpt>
+<trkpt lat="42.9266100" lon="20.3612501">
+
+<time>2005-09-10T12:54:32.996Z</time>
+</trkpt>
+<trkpt lat="42.9280900" lon="20.3600301">
+
+<time>2005-09-10T12:55:12.999Z</time>
+</trkpt>
+<trkpt lat="42.9313300" lon="20.3581401">
+
+<time>2005-09-10T12:55:53.003Z</time>
+</trkpt>
+</trkseg>
+</trk>
+ </gpx>

@@ -66,7 +66,7 @@ public class KontrolerPretragaPutovanja extends OpstiKontroler {
         parametriKomunikacije.put("operacija", Konstante.PRONADJI_PUTOVANJE);
         signal = pozoviSO();
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException("Putovanja nisu pronadjena");
+            throw new RuntimeException("PSistem ne može da nađe putovanja po zadatim vrednostima");
         }
         prikaziRezultatSO();
         return signal;

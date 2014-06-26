@@ -5,11 +5,12 @@
  */
 package komunikacija;
 
-import transfer.TransferObjekat;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import transfer.TransferObjekat;
+import util.Util;
 
 /**
  *
@@ -25,7 +26,9 @@ public class Komunikacija {
     private ObjectInputStream in;
 
     private Komunikacija() throws IOException {
-        soket = new Socket("127.0.0.1", 8189);
+        System.out.println(Util.getInstance().getHost());
+        System.out.println(Util.getInstance().getPort());
+        soket = new Socket(Util.getInstance().getHost(), Util.getInstance().getPort());
         out = new ObjectOutputStream(soket.getOutputStream());
         in = new ObjectInputStream(soket.getInputStream());
     }

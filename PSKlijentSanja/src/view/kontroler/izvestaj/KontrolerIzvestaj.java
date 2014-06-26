@@ -85,6 +85,9 @@ public class KontrolerIzvestaj extends OpstiKontroler {
         parametriKomunikacije.put("domenskiObjekat", kreirajObjekat());
         parametriKomunikacije.put("operacija", Konstante.KREIRAJ_IZVESTAJ);
         signal = pozoviSO();
+        if (parametriKomunikacije.containsKey("izuzetak")) {
+            throw new RuntimeException("Sistem ne može da kreira novi izveštaj");
+        }
         prikaziRezultatSO();
         return signal;
     }
@@ -108,7 +111,7 @@ public class KontrolerIzvestaj extends OpstiKontroler {
         parametriKomunikacije.put("operacija", Konstante.ZAPAMTI_IZVESTAJ);
         signal = pozoviSO();
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException((String) parametriKomunikacije.get("poruka"));
+            throw new RuntimeException("Sistem ne može da zapamti novi izveštaj");
         }
         prikaziRezultatSO();
         return signal;

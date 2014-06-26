@@ -98,7 +98,7 @@ public class KontrolerUnosBicikliste extends OpstiKontroler {
         parametriKomunikacije.put("operacija", Konstante.KREIRAJ_BICIKLISTU);
         signal = pozoviSO();
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException("Biciklista ne moze biti kreiran");
+            throw new RuntimeException("Sistem ne može da kreira novog biciklistu");
         }
         prikaziRezultatSO();
         return signal;
@@ -115,7 +115,7 @@ public class KontrolerUnosBicikliste extends OpstiKontroler {
         parametriKomunikacije.put("operacija", Konstante.ZAPAMTI_BICIKLISTU);
         signal = pozoviSO();
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException("Biciklista ne moze biti sacuvan");
+            throw new RuntimeException("Sistem ne može da zapamti novog biciklistu");
         }
         prikaziRezultatSO();
         return signal;

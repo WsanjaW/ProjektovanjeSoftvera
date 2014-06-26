@@ -97,7 +97,7 @@ public class KontrolerEvidencija extends OpstiKontroler {
         parametriKomunikacije.put("operacija", Konstante.KREIRAJ_EVIDENCIJU);
         signal = pozoviSO();
         if (parametriKomunikacije.containsKey("izuzetak")) {
-            throw new RuntimeException(("Evidencija ne moze biti kreirana kreirana"));
+            throw new RuntimeException("Sistem ne može da zapamti novu evidenciju putovanja");
         }
         prikaziRezultatSO();
         return signal;

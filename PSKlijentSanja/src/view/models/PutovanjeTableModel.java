@@ -6,6 +6,7 @@
 package view.models;
 
 import domen.Putovanje;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -41,7 +42,7 @@ public class PutovanjeTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 7;
     }
 
     @Override
@@ -56,6 +57,14 @@ public class PutovanjeTableModel extends AbstractTableModel {
                 return p.getOdMesta().getNaziv();
             case 3:
                 return p.getDoMesta().getNaziv();
+            case 4:
+                return String.format("%.2f km",p.getUkupnaKilometraza());
+            case 5:
+                
+                return prikaziVreme(p.getUkupnoVreme());
+            case 6:
+                return String.format("%.2f km/h", p.getProsecnaBrzina() * 1000);
+
             default:
                 return "greska";
         }
@@ -72,6 +81,12 @@ public class PutovanjeTableModel extends AbstractTableModel {
                 return "Od";
             case 3:
                 return "Do";
+            case 4:
+                return "Kilometraza";
+            case 5:
+                return "Vreme";
+            case 6:
+                return "Prosecna brzina";
             default:
                 return "greska";
         }
@@ -82,4 +97,12 @@ public class PutovanjeTableModel extends AbstractTableModel {
 
     }
 
+    private String prikaziVreme(Long vreme) {
+
+        long diffSeconds = vreme / 1000 % 60;
+        long diffMinutes = vreme / (60 * 1000) % 60;
+        long diffHours = vreme / (60 * 60 * 1000);
+        return String.format("%02d:%02d:%02d", diffHours, diffMinutes, diffSeconds);
+
+    }
 }

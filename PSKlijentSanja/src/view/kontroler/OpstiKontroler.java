@@ -40,9 +40,9 @@ public abstract class OpstiKontroler {
             parametriKomunikacije = primljeniObjekat.getMapa();
             return (String) parametriKomunikacije.get("poruka");
         } catch (IOException ex) {
-           return "Neuspesna komunikacija sa serverom";
+           throw new RuntimeException("Neuspesna komunikacija sa serverom");
         } catch (ClassNotFoundException ex) {
-           return "Neuspesna komunikacija sa serverom";
+           throw new RuntimeException("Neuspesna komunikacija sa serverom");
         }
     }
     

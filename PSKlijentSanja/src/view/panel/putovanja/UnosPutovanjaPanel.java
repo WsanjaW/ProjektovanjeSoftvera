@@ -6,12 +6,14 @@
 package view.panel.putovanja;
 
 import domen.Putovanje;
-import domen.Track;
+import domen.Trek;
 import java.io.File;
+import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import obradafajla.ObradaFajla;
 import view.kontroler.putovanja.KontrolerUnosPutovanja;
 import view.models.TrackTableModel;
 
@@ -221,10 +223,13 @@ public class UnosPutovanjaPanel extends javax.swing.JPanel {
 
     private void dodajTrekButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajTrekButtonActionPerformed
 
-        Track t = new Track();
+        Trek t = new Trek();
         t.setTrackId(trekoviTable.getRowCount() + 1);
         t.setNaziv(nazivTrackaTextField.getText());
-        t.setKilometraza(34.7);
+        ObradaFajla obradaFajla = new ObradaFajla(trackFile);
+        t.setKilometraza(obradaFajla.getKilometraza());
+        t.setVreme(obradaFajla.getVreme());
+        t.setProsecnaBrzina(obradaFajla.getProsecnaBrzina());
         ttm.addTrack(t);
     }//GEN-LAST:event_dodajTrekButtonActionPerformed
 
