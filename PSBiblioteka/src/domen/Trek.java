@@ -8,25 +8,24 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
  *
- * Domenska klasa Track
- * 
+ * Domenska klasa Trek
+ *
  * @author Sanja
  */
-public class Track extends OpstiDomenskiObjekat {
+public class Trek extends OpstiDomenskiObjekat {
 
     private int trackId;
     private Putovanje putovanje;
     private String naziv;
     private Double kilometraza;
-    private Date vreme;
+    private Long vreme;
     private Double prosecnaBrzina;
 
-    public Track(Putovanje putovanje, String naziv, Double kilometraza, Date vreme, Double prosecnaBrzina) {
+    public Trek (Putovanje putovanje, String naziv, Double kilometraza, Long vreme, Double prosecnaBrzina) {
         this.putovanje = putovanje;
         this.naziv = naziv;
         this.kilometraza = kilometraza;
@@ -34,7 +33,7 @@ public class Track extends OpstiDomenskiObjekat {
         this.prosecnaBrzina = prosecnaBrzina;
     }
 
-    public Track() {
+    public Trek(){
     }
 
     public int getTrackId() {
@@ -69,11 +68,13 @@ public class Track extends OpstiDomenskiObjekat {
         this.kilometraza = kilometraza;
     }
 
-    public Date getVreme() {
+    public Long getVreme() {
+        
         return vreme;
     }
 
-    public void setVreme(Date vreme) {
+    public void setVreme(Long vreme) {
+
         this.vreme = vreme;
     }
 
@@ -87,17 +88,18 @@ public class Track extends OpstiDomenskiObjekat {
 
     @Override
     public String nazivTabele() {
-        return "track";
+        return "trek";
     }
 
     @Override
     public String vratiVrednostAtributa() {
-        return putovanje.getPutovanjeID() + ",'" + naziv + "'," + kilometraza;
+       
+        return putovanje.getPutovanjeID() + ",'" + naziv + "'," + kilometraza + "," + vreme + "," + prosecnaBrzina;
     }
 
     @Override
     public String vratiAtribute() {
-        return "putovanjeid,naziv,kilometraza";
+        return "putovanjeid,naziv,kilometraza,vreme,prosecnaBrzina";
     }
 
     @Override
@@ -156,10 +158,12 @@ public class Track extends OpstiDomenskiObjekat {
         try {
             while (rs.next()) {
 
-                Track t = new Track();
+                Trek t = new Trek();               
                 t.setTrackId(rs.getInt("trackid"));
                 t.setNaziv(rs.getString("naziv"));
                 t.setKilometraza(rs.getDouble("kilometraza"));
+                t.setVreme(rs.getLong("vreme"));
+                t.setProsecnaBrzina(rs.getDouble("prosecnaBrzina"));
                 t.setPutovanje(new Putovanje(rs.getInt("putovanjeid")));
                 lista.add(t);
             }
@@ -174,4 +178,5 @@ public class Track extends OpstiDomenskiObjekat {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+  
 }

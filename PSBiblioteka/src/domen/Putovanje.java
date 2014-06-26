@@ -8,12 +8,13 @@ package domen;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  *
  * Domenska klasa Putovanje
- * 
+ *
  * @author Sanja
  */
 public class Putovanje extends OpstiDomenskiObjekat {
@@ -22,7 +23,7 @@ public class Putovanje extends OpstiDomenskiObjekat {
     private String naziv;
     private Mesto odMesta;
     private Mesto doMesta;
-    private List<Track> trackovi;
+    private List<Trek> trackovi;
 
     public Putovanje() {
         naziv = null;
@@ -31,7 +32,7 @@ public class Putovanje extends OpstiDomenskiObjekat {
         trackovi = new ArrayList<>();
     }
 
-    public Putovanje(String naziv, Mesto odMesta, Mesto doMesta, List<Track> trackovi) {
+    public Putovanje(String naziv, Mesto odMesta, Mesto doMesta, List<Trek> trackovi) {
         this.naziv = naziv;
         this.odMesta = odMesta;
         this.doMesta = doMesta;
@@ -74,11 +75,11 @@ public class Putovanje extends OpstiDomenskiObjekat {
         this.doMesta = doMesta;
     }
 
-    public List<Track> getTrackovi() {
+    public List<Trek> getTrackovi() {
         return trackovi;
     }
 
-    public void setTrackovi(List<Track> trackovi) {
+    public void setTrackovi(List<Trek> trackovi) {
         this.trackovi = trackovi;
     }
 
@@ -201,7 +202,7 @@ public class Putovanje extends OpstiDomenskiObjekat {
     @Override
     public OpstiDomenskiObjekat vratiNoviPovezaniObjekat(int i) {
         if (i == 0) {
-            Track t = new Track();
+            Trek t = new Trek();
             t.setPutovanje(this);
             return t;
         }
@@ -228,12 +229,13 @@ public class Putovanje extends OpstiDomenskiObjekat {
         List<OpstiDomenskiObjekat> lista = new ArrayList<>();
         try {
             while (rs.next()) {
-               
+
                 Putovanje p = new Putovanje();
                 p.setPutovanjeID(rs.getInt("putovanjeid"));
                 p.setNaziv(rs.getString("naziv"));
                 p.setOdMesta(new Mesto(rs.getInt("odMesta")));
                 p.setDoMesta(new Mesto(rs.getInt("doMesta")));
+
                 lista.add(p);
             }
 
@@ -247,15 +249,44 @@ public class Putovanje extends OpstiDomenskiObjekat {
     public void spoj(List<OpstiDomenskiObjekat> lista2, int i) {
         if (i == 0) {
             for (OpstiDomenskiObjekat opstiDomenskiObjekat : lista2) {
-                trackovi.add((Track) opstiDomenskiObjekat);
+                trackovi.add((Trek) opstiDomenskiObjekat);
             }
         }
         if (i == 1) {
             odMesta = (Mesto) lista2.get(0);
         } else if (i == 2) {
-           doMesta = (Mesto) lista2.get(0);
+            doMesta = (Mesto) lista2.get(0);
         }
-       
+
+    }
+
+    public double getUkupnaKilometraza() {
+        double kilo = 0.0;
+        for (Trek track : trackovi) {
+            kilo += track.getKilometraza();
+        }
+        return kilo;
+    }
+
+    public long getUkupnoVreme() {
+        long v = 0;
+        for (Trek track : trackovi) {
+
+            v += track.getVreme();
+
+        }
+        return v;
+    }
+
+    public double getProsecnaBrzina() {
+        double pros = 0.0;
+        if (getUkupnaKilometraza() == 0) {
+            return 0.0;
+        }
+        if (getUkupnoVreme() == 0) {
+            return 0.0;
+        }
+        return getUkupnaKilometraza() / (getUkupnoVreme() * 0.000277778);
     }
 
 }
