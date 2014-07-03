@@ -5,6 +5,12 @@
  */
 package view.panel.evidencija;
 
+import java.awt.Color;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -17,8 +23,6 @@ import view.kontroler.evidencija.KontrolerEvidencija;
 public class EvidencijaPanel extends javax.swing.JPanel {
 
     KontrolerEvidencija kontroler;
-
-    String operacija = "";
 
     /**
      * Creates new form EvidencijaPanel
@@ -122,8 +126,11 @@ public class EvidencijaPanel extends javax.swing.JPanel {
 
     private void sacuvajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sacuvajButtonActionPerformed
         try {
-            String poruka = kontroler.kreirajNovuEvidenciju();
-            JOptionPane.showMessageDialog(this, poruka);
+            if (validanUnos()) {
+                String poruka = kontroler.kreirajNovuEvidenciju();
+                JOptionPane.showMessageDialog(this, poruka);
+            }
+
         } catch (RuntimeException runtimeException) {
             JOptionPane.showMessageDialog(this, runtimeException.getMessage());
         }
@@ -177,11 +184,50 @@ public class EvidencijaPanel extends javax.swing.JPanel {
     private void popuniCombo() {
         kontroler.ucitajBicikliste(biciklistaComboBox);
         kontroler.ucitajPutovanja(putovanjeComboBox);
-        operacija = "pronadjiPutovanja";
-        //  kontrilerUcitavanje.pronadji();
-        operacija = "pronadjiBicikliste";
-        //  kontrilerUcitavanje.pronadji();
-        operacija = "";
+
+    }
+
+    private boolean validanUnos() {
+        boolean validno = true;
+        Date datumOd = null;
+        Date datumDo = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+        if (datumOdTextField.getText().isEmpty()) {
+            datumOdTextField.setBackground(Color.RED);
+            validno = false;
+        } else {
+            try {
+                datumOd = sdf.parse(datumOdTextField.getText());
+                datumOdTextField.setBackground(Color.WHITE);
+            } catch (ParseException ex) {
+                datumOdTextField.setBackground(Color.RED);
+                validno = false;
+            }
+        }
+        if (datumDoTextField.getText().isEmpty()) {
+            datumDoTextField.setBackground(Color.RED);
+            validno = false;
+        } else {
+            try {
+                datumDo = sdf.parse(datumDoTextField.getText());
+                datumDoTextField.setBackground(Color.WHITE);
+            } catch (ParseException ex) {
+                datumOdTextField.setBackground(Color.RED);
+                validno = false;
+            }
+        }
+        if (datumDo != null && datumOd != null && datumDo.before(datumOd)) {
+            validno = false;
+            datumOdTextField.setBackground(Color.RED);
+            datumDoTextField.setBackground(Color.RED);
+        }
+       
+        if (!validno) {
+            JOptionPane.showMessageDialog(null, "Podaci nisu ispravno uneti");
+        }
+
+        return validno;
     }
 
 }
