@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -213,7 +211,7 @@ public class EvidencijaPanel extends javax.swing.JPanel {
                 datumDo = sdf.parse(datumDoTextField.getText());
                 datumDoTextField.setBackground(Color.WHITE);
             } catch (ParseException ex) {
-                datumOdTextField.setBackground(Color.RED);
+                datumDoTextField.setBackground(Color.RED);
                 validno = false;
             }
         }
